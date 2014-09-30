@@ -10,5 +10,7 @@ libraryDependencies ++= Seq(
   jdbc,
   anorm,
   cache,
-  ws
+  ws,
+  "postgresql" % "postgresql" % "9.1-901.jdbc4",
+  "com.nimbusds" % "nimbus-jose-jwt" % "2.25"
 )
