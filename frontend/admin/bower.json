@@ -1,0 +1,17 @@
+{
+  "name": "angular-statemachine",
+  "version": "0.1.0",
+  "description": "seed",
+  "dependencies": {
+      "bootstrap": "3.1.1",
+      "animate.css":"latest",
+      "font-awesome": "4.0.3",
+      "angular-ui-router": "0.2.10",
+      "angular-animate": "^1.2.16",
+      "angular-i18n": "^1.2.16",
+      "angular-resource": "^1.2.16",
+      "angular": "^1.2.16",
+      "angular-strap": "2.0.2",
+      "angular-motion":"0.3.2"
+  }
+}

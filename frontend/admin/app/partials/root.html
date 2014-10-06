@@ -1,0 +1,55 @@
+<header class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="#/" class="navbar-brand">Angular Seed</a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#/">
+                        <i class="fa fa-download"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<div ui-view="navigation_bar">
+    <div class="col-xs-2 col-sm-2 sidebar-left">
+        <ul class="nav main-menu">
+            <li>
+                <a ui-sref="login">
+                    <i class="fa fa-lock"></i>
+                    <span class="hidden-xs">Login</span>
+                </a>
+            </li>
+            <li>
+                <a ui-sref="app">
+                    <i class="fa fa-tasks"></i>
+                    <span class="hidden-xs">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a ui-sref="app.orderlist">
+                    <i class="fa fa-calendar"></i>
+                    <span class="hidden-xs">Orderlist</span>
+                </a>
+            </li>
+            <li>
+                <a ui-sref="app.general-settings">
+                    <i class="fa fa-calendar"></i>
+                    <span class="hidden-xs">General Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div ui-view="content"   id="content"  style="min-height: 800px;"><p>Application</p></div>
+<div ui-view="hints_bar" id="hints_bar"><p>Hints bar</p></div>
+<footer class="footer">
+    <div class="bs-old-docs">
+        <div class="container">
+            <div class="text-center">Laplacian d.o.o. Copyright 2014</div>
+        </div>
+    </div>
+</footer>

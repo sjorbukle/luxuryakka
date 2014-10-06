@@ -1,0 +1,15 @@
+#hints_bar {
+    border:5px solid royalblue;
+    color:#ffff00;
+    background-color: #737373;
+    min-height: 3em;
+    padding: 5px;
+}
+
+#content {
+    position: relative;
+    z-index: 10;
+    background: #ebebeb;
+    box-shadow: 0 0 6px #131313;
+    overflow: hidden;
+}
