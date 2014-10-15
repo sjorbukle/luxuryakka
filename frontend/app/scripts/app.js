@@ -1,12 +1,21 @@
 'use strict';
 
+/**
+ * @ngdoc overview
+ * @name adminApp
+ * @description
+ * # adminApp
+ *
+ * Main module of the application.
+ */
 angular
-  .module('app', [
+  .module('adminApp', [
+    'ngAnimate',
     'ngCookies',
     'ngResource',
-    'ngSanitize',
     'ngRoute',
-    'ui.bootstrap'
+    'ngSanitize',
+    'ngTouch'
   ])
   .config(function ($routeProvider) {
     $routeProvider

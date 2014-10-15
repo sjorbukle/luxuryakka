@@ -1,8 +1,17 @@
 'use strict';
 
-angular.module('app')
+/**
+ * @ngdoc function
+ * @name adminApp.controller:AboutCtrl
+ * @description
+ * # AboutCtrl
+ * Controller of the adminApp
+ */
+angular.module('adminApp')
   .controller('AboutCtrl', function ($scope) {
-    $scope.about = [
-      'This is me!'
+    $scope.awesomeThings = [
+      'HTML5 Boilerplate',
+      'AngularJS',
+      'Karma'
     ];
   });
