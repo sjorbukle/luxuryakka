@@ -3,7 +3,7 @@
 @import "compass";
 @import "variables";
 @import "mixin_helpers";
-@import "bootstrap/mixins";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/mixins";
 
 @mixin gradient-striped($color: #555, $angle: 45deg) {
   background-color: $color;
