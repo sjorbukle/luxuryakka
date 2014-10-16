@@ -8,7 +8,6 @@ import com.laplacian.luxuryakka.module.user.validation.UserCreateValidator
 import controllers.core.SecuredController
 import org.springframework.stereotype
 import org.springframework.beans.factory.annotation.Autowired
-import play.api.libs.json.Json
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -31,12 +30,12 @@ class UserController @Autowired
       val userCandidate = this.userDomainService.tryGetById(id)
       if(!userCandidate.isDefined)
       {
-        Future(NotFound(Json.toJson(RestResponse.errorToRestResponse("User with this id does not exist."))))
+        Future(NotFound(RestResponse.errorToRestResponse("User with this id does not exist.").json))
       }
       else
       {
         val userForResponse = userCandidate.get.copy(password = "n/a")
-        Future(Ok(Json.toJson(RestResponse.data(userForResponse))))
+        Future(Ok(RestResponse.data(userForResponse).json))
       }
   }
 }
