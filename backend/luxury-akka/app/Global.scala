@@ -13,20 +13,20 @@ object Global extends WithFilters(CORSFilter) with GlobalSettings
 
   override def beforeStart(app: Application)
   {
-    TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
     DateTimeZone.setDefault(DateTimeZone.UTC)
   }
 
   override def onStart(app: play.api.Application)
   {
     context.register(classOf[SpringConfiguration])
-    context.refresh
-    context.start
+    context.refresh()
+    context.start()
   }
 
   override def onStop(app: play.api.Application)
   {
-    context.stop
+    context.stop()
   }
 
   override def getControllerInstance[A](controllerClass: Class[A]): A =
