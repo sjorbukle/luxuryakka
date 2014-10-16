@@ -4,20 +4,22 @@ import com.laplacian.luxuryakka.core.Asserts
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
 
-case class RestResponse[TItem]
+case class RestResponse[TItem: Writes]
 (
   data      : Option[TItem],
   messages  : Option[MessagesRestResponse] = None
 )
 {
-  selfInstance =>
+  selfRef =>
   Asserts.argumentIsNotNull(data)
   Asserts.argumentIsNotNull(messages)
+
+  lazy val json = Json.toJson(selfRef)
 }
 
 object RestResponse
 {
-  def data[TItem](data: TItem) =
+  def data[TItem: Writes](data: TItem) =
   {
     Asserts.argumentIsNotNull(data)
 
@@ -34,7 +36,7 @@ object RestResponse
     )
   }
 
-  def of[TItem](data: TItem, messagesRestResponse: MessagesRestResponse) =
+  def of[TItem: Writes](data: TItem, messagesRestResponse: MessagesRestResponse) =
   {
     Asserts.argumentIsNotNull(data)
     Asserts.argumentIsNotNull(messagesRestResponse)
@@ -67,6 +69,16 @@ object RestResponse
     Asserts.argumentIsNotNull(error)
 
     RestResponse.errorsToRestResponse(List(error))
+  }
+
+  def authErrorRestResponse(error: String) =
+  {
+    Asserts.argumentIsNotNull(error)
+
+    val messagesResponse = MessagesRestResponse(
+      authError = Some(error)
+    )
+    RestResponse.messages(messagesResponse)
   }
 
   implicit def writes[TItem: Writes]: Writes[RestResponse[TItem]] = (

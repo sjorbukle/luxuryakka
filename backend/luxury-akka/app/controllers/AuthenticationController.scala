@@ -31,10 +31,10 @@ class AuthenticationController @Autowired
           authenticationService.authenticate(credentials.username, credentials.password).map{ token =>
             Ok(Json.toJson(RestResponse.data(token)))
           }.getOrElse(
-              Unauthorized(Json.toJson(RestResponse.errorToRestResponse(BAD_USERNAME_OR_PASSWORD_ERROR))))
+              Unauthorized(RestResponse.authErrorRestResponse(BAD_USERNAME_OR_PASSWORD_ERROR).json))
       }.recoverTotal {
         error =>
-          BadRequest(Json.toJson(RestResponse.jsErrorToRestResponse(error)))
+          BadRequest(RestResponse.authErrorRestResponse(error.errors.map(_._2).flatten.map(_.message).head).json)
       }
   }
 
@@ -46,9 +46,9 @@ class AuthenticationController @Autowired
           authenticationService.refreshToken(authenticationToken.token).map{ token =>
             Ok(Json.toJson(RestResponse.data(token)))
           }.getOrElse(
-              Unauthorized(Json.toJson(RestResponse.errorToRestResponse(BAD_USERNAME_OR_PASSWORD_ERROR))))
+              Unauthorized(RestResponse.authErrorRestResponse(BAD_USERNAME_OR_PASSWORD_ERROR).json))
       }.recoverTotal {
-        error => BadRequest(Json.toJson(RestResponse.jsErrorToRestResponse(error)))
+        error => BadRequest(RestResponse.authErrorRestResponse(error.errors.map(_._2).flatten.map(_.message).head).json)
       }
   }
 }
