@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 import play.api.db.DB
 
 @Configuration
-@ComponentScan(basePackages = Array("controllers", "com.toptal.expensetracker"))
+@ComponentScan(basePackages = Array("controllers", "com.laplacian.luxuryakka"))
 @EnableTransactionManagement
 class SpringConfiguration
 {

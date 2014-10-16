@@ -1,9 +1,10 @@
 package controllers.core
 
 import com.laplacian.luxuryakka.core.Asserts
+import com.laplacian.luxuryakka.core.response.RestResponse
 import com.laplacian.luxuryakka.module.authentication.service.AuthenticationService
 import com.laplacian.luxuryakka.module.user.domain.UserDetailsEntity
-import play.api.http.HeaderNames._
+import play.api.libs.json.Json
 import play.api.mvc._
 
 import scala.concurrent.Future
@@ -15,31 +16,39 @@ abstract class SecuredController
 {
   Asserts.argumentIsNotNull(authenticationService)
 
-  private final val INVALID_TOKEN = "Invalid authentication token"
-  private final val MISSING_TOKEN = "Missing authentication token"
+  private final val INVALID_TOKEN_ERROR = "Invalid authentication token"
+  private final val MISSING_TOKEN_ERROR = "Missing authentication token"
+  private final val AUTH_TOKEN_NOT_FOUND_ERROR = "Authorization token not found in secured endpoint"
 
-  object AuthenticatedAction extends ActionBuilder[Request] {
-    def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[Result]) = {
+  def AuthenticatedAction(block: Request[AnyContent] => Future[Result]): Action[AnyContent] =
+  {
+    AuthenticatedAction(parse.anyContent)(block)
+  }
 
-      request.headers.get(AUTHORIZATION).map(token => {
-        val validationResult = authenticationService.validateToken(token)
-        if (!validationResult) Future.successful(Unauthorized(INVALID_TOKEN))
-        else                   block(request)
-      }).getOrElse(Future.successful(Unauthorized(MISSING_TOKEN)))
+  def AuthenticatedAction[A](bodyParser: BodyParser[A])(block: Request[A] => Future[Result]): Action[A] = {
+    Action.async(bodyParser) {
+      request =>
+        request.headers.get(AUTHORIZATION).map(token => {
+          val validationResult = authenticationService.validateToken(token)
+          if (!validationResult)
+            Future.successful(
+              Unauthorized(Json.toJson(RestResponse.errorToRestResponse(INVALID_TOKEN_ERROR)))
+            )
+          else                   block(request)
+        }).getOrElse(
+            Future.successful(
+              Unauthorized(Json.toJson(RestResponse.errorToRestResponse(MISSING_TOKEN_ERROR)))
+          ))
     }
   }
-}
 
-object SecuredController
-{
-  implicit def userFromSecuredRequest(implicit request : Request[AnyContent], authenticationService : AuthenticationService) : UserDetailsEntity =
+  implicit def userFromSecuredRequest(implicit request : Request[AnyContent]) : UserDetailsEntity =
   {
     Asserts.argumentIsNotNull(request)
-    Asserts.argumentIsNotNull(authenticationService)
 
     val token = request.headers.get(AUTHORIZATION)
-      .getOrElse(throw new IllegalStateException("Authorization token not found in secured endpoint"))
+      .getOrElse(throw new IllegalStateException(AUTH_TOKEN_NOT_FOUND_ERROR))
 
-    authenticationService.getUserFromToken(token)
+    this.authenticationService.getUserFromToken(token)
   }
 }

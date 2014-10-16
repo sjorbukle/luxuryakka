@@ -1,12 +1,12 @@
 package controllers
 
-import com.laplacian.luxuryakka.core.response.{GlobalMessagesRestResponse, MessagesRestResponse, RestResponse}
+import com.laplacian.luxuryakka.core.response.RestResponse
 import org.springframework.stereotype
 import org.springframework.beans.factory.annotation.Autowired
 import com.laplacian.luxuryakka.module.user.service.domain.UserDomainService
 import com.laplacian.luxuryakka.module.authentication.service.AuthenticationService
 import com.laplacian.luxuryakka.core.Asserts
-import play.api.libs.json.JsError
+import play.api.libs.json.Json
 import play.api.mvc.{Controller, Action}
 import com.laplacian.luxuryakka.core.authentication.Credentials
 import com.laplacian.luxuryakka.core.jwt.ResponseToken
@@ -16,58 +16,39 @@ class AuthenticationController @Autowired
 (
   private val userDomainService     : UserDomainService,
   private val authenticationService : AuthenticationService
-  ) extends Controller
+) extends Controller
 {
   Asserts.argumentIsNotNull(userDomainService)
   Asserts.argumentIsNotNull(authenticationService)
 
+  private final val BAD_USERNAME_OR_PASSWORD_ERROR = "Bad username or password"
+
   def authenticate = Action(parse.json)
   {
     implicit request =>
-
       request.body.validate[Credentials].map {
         case credentials: Credentials =>
-        {
           authenticationService.authenticate(credentials.username, credentials.password).map{ token =>
-            Ok(RestResponse.data(token))
-          }.getOrElse(Unauthorized("Bad username or password"))
-        }
-      }.recoverTotal
-      {
+            Ok(Json.toJson(RestResponse.data(token)))
+          }.getOrElse(
+              Unauthorized(Json.toJson(RestResponse.errorToRestResponse(BAD_USERNAME_OR_PASSWORD_ERROR))))
+      }.recoverTotal {
         error =>
-          BadRequest(Helper.jsErrorToGlobalMessagesErrorResponse(error).json)
+          BadRequest(Json.toJson(RestResponse.jsErrorToRestResponse(error)))
       }
   }
 
   def refreshToken = Action(parse.json)
   {
     implicit request =>
-
       request.body.validate[ResponseToken].map {
         case authenticationToken: ResponseToken =>
-        {
           authenticationService.refreshToken(authenticationToken.token).map{ token =>
-            Ok(RestResponse.data(token))
-          }.getOrElse(Unauthorized("Bad username or password"))
-        }
-      }.recoverTotal
-      {
-        error => BadRequest(Helper.jsErrorToGlobalMessagesErrorResponse(error).json)
+            Ok(Json.toJson(RestResponse.data(token)))
+          }.getOrElse(
+              Unauthorized(Json.toJson(RestResponse.errorToRestResponse(BAD_USERNAME_OR_PASSWORD_ERROR))))
+      }.recoverTotal {
+        error => BadRequest(Json.toJson(RestResponse.jsErrorToRestResponse(error)))
       }
-  }
-
-  private object Helper
-  {
-    def jsErrorToGlobalMessagesErrorResponse(error: JsError) =
-    {
-      val messagesResponse = MessagesRestResponse(
-        global = Some(
-          GlobalMessagesRestResponse(
-            errors = error.errors.map(_._2).flatten.map(_.message).toList
-          )
-        )
-      )
-      RestResponse.messages(messagesResponse)
-    }
   }
 }
