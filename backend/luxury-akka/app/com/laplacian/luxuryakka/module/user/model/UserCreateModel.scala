@@ -6,7 +6,6 @@ import play.api.libs.json.{JsValue, Json}
 
 case class UserCreateModel
 (
-  id        : Option[JsValue],
   firstName : Option[JsValue],
   lastName  : Option[JsValue],
   email     : Option[JsValue],
