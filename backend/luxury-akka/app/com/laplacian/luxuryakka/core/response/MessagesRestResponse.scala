@@ -6,13 +6,11 @@ import play.api.libs.json.Json
 case class MessagesRestResponse
 (
   global    : Option[GlobalMessagesRestResponse]  = None,
-  local     : List[LocalMessagesRestResponse]     = List.empty,
-  authError : Option[String]                      = None
+  local     : List[LocalMessagesRestResponse]     = List.empty
 )
 {
   Asserts.argumentIsNotNull(global)
   Asserts.argumentIsNotNull(local)
-  Asserts.argumentIsNotNull(authError)
 }
 
 object MessagesRestResponse
