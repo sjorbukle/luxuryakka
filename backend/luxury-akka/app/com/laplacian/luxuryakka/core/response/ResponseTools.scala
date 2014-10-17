@@ -46,14 +46,14 @@ object ResponseTools
     )
   }
 
-  def of[TItem: Writes](data: TItem, messagesRestResponse: MessagesRestResponse) =
+  def of[TItem: Writes](data: TItem, messages: Option[Messages]) =
   {
     Asserts.argumentIsNotNull(data)
-    Asserts.argumentIsNotNull(messagesRestResponse)
+    Asserts.argumentIsNotNull(messages)
 
     RestResponse[TItem](
       data      = Some(data),
-      messages  = Some(messagesRestResponse)
+      messages  = messages.map(ResponseTools.messagesToMessagesRestResponse)
     )
   }
 

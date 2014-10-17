@@ -1,7 +1,7 @@
 package controllers.core
 
 import com.laplacian.luxuryakka.core.Asserts
-import com.laplacian.luxuryakka.core.response.{ResponseTools, RestResponse}
+import com.laplacian.luxuryakka.core.response.ResponseTools
 import com.laplacian.luxuryakka.module.authentication.service.AuthenticationService
 import com.laplacian.luxuryakka.module.user.domain.UserDetailsEntity
 import play.api.mvc._

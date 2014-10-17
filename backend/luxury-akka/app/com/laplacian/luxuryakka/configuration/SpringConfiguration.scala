@@ -1,7 +1,7 @@
 package com.laplacian.luxuryakka.configuration
 
 import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
+import slick.driver.PostgresDriver.simple._
 import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
 import play.api.db.DB
@@ -27,9 +27,9 @@ class SpringConfiguration
   }
 
   @Bean
-  def jdbcTemplate =
+  def slickDb =
   {
-    new NamedParameterJdbcTemplate(dataSource)
+    Database.forDataSource(dataSource)
   }
 
 }

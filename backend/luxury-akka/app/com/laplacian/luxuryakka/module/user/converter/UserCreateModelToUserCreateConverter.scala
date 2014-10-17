@@ -11,11 +11,12 @@ object UserCreateModelToUserCreateConverter extends Converter[UserCreateModel, U
     Asserts.argumentIsNotNull(in)
 
     UserCreateEntity(
-      firstName = UserCreateModel.FIRST_NAME_FIELD.bind(in.firstName.map(_.toString)),
-      lastName  = UserCreateModel.LAST_NAME_FIELD.bind(in.lastName.map(_.toString)),
-      email     = UserCreateModel.EMAIL_FIELD.bind(in.email.map(_.toString)),
-      username  = UserCreateModel.USERNAME_FIELD.bind(in.username.map(_.toString)),
-      password  = UserCreateModel.PASSWORD_FIELD.bind(in.password.map(_.toString))
+      id        = None,
+      firstName = UserCreateModel.FIRST_NAME_FIELD.bind(in.firstName.map(_.toString())),
+      lastName  = UserCreateModel.LAST_NAME_FIELD.bind(in.lastName.map(_.toString())),
+      email     = UserCreateModel.EMAIL_FIELD.bind(in.email.map(_.toString())),
+      username  = UserCreateModel.USERNAME_FIELD.bind(in.username.map(_.toString())),
+      password  = UserCreateModel.PASSWORD_FIELD.bind(in.password.map(_.toString()))
     )
   }
 }

@@ -5,6 +5,7 @@ import play.api.libs.json.Json
 
 case class UserCreateEntity
 (
+  id        : Option[Long],
   firstName : String,
   lastName  : String,
   email     : String,
@@ -12,6 +13,8 @@ case class UserCreateEntity
   password  : String
 )
 {
+  Asserts.argumentIsNotNull(id)
+  Asserts.argumentIsTrue(id.isEmpty, "create entity must have empty id")
   Asserts.argumentIsNotNull(firstName)
   Asserts.argumentIsNotNull(lastName)
   Asserts.argumentIsNotNull(email)
