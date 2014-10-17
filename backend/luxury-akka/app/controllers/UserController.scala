@@ -1,7 +1,7 @@
 package controllers
 
 import com.laplacian.luxuryakka.core.Asserts
-import com.laplacian.luxuryakka.core.response.RestResponse
+import com.laplacian.luxuryakka.core.response.{ResponseTools, RestResponse}
 import com.laplacian.luxuryakka.module.authentication.service.AuthenticationService
 import com.laplacian.luxuryakka.module.user.service.domain.UserDomainService
 import com.laplacian.luxuryakka.module.user.validation.UserCreateValidator
@@ -28,14 +28,12 @@ class UserController @Autowired
   def read(id: Long) = AuthenticatedAction {
     request =>
       val userCandidate = this.userDomainService.tryGetById(id)
-      if(!userCandidate.isDefined)
-      {
-        Future(NotFound(RestResponse.errorToRestResponse("User with this id does not exist.").json))
+      if(!userCandidate.isDefined) {
+        Future(NotFound(ResponseTools.errorToRestResponse("User with this id does not exist.").json))
       }
-      else
-      {
+      else {
         val userForResponse = userCandidate.get.copy(password = "n/a")
-        Future(Ok(RestResponse.data(userForResponse).json))
+        Future(Ok(ResponseTools.data(userForResponse).json))
       }
   }
 }

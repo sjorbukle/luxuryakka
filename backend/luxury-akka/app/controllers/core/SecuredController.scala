@@ -1,7 +1,7 @@
 package controllers.core
 
 import com.laplacian.luxuryakka.core.Asserts
-import com.laplacian.luxuryakka.core.response.RestResponse
+import com.laplacian.luxuryakka.core.response.{ResponseTools, RestResponse}
 import com.laplacian.luxuryakka.module.authentication.service.AuthenticationService
 import com.laplacian.luxuryakka.module.user.domain.UserDetailsEntity
 import play.api.mvc._
@@ -31,12 +31,12 @@ abstract class SecuredController
           val validationResult = authenticationService.validateToken(token)
           if (!validationResult)
             Future.successful(
-              Unauthorized(RestResponse.authErrorRestResponse(INVALID_TOKEN_ERROR).json)
+              Unauthorized(ResponseTools.errorToRestResponse(INVALID_TOKEN_ERROR).json)
             )
           else block(request)
         }).getOrElse(
             Future.successful(
-              Unauthorized(RestResponse.authErrorRestResponse(MISSING_TOKEN_ERROR).json)
+              Unauthorized(ResponseTools.errorToRestResponse(MISSING_TOKEN_ERROR).json)
           ))
     }
   }

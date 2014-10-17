@@ -1,6 +1,6 @@
 package controllers
 
-import com.laplacian.luxuryakka.core.response.RestResponse
+import com.laplacian.luxuryakka.core.response.{ResponseTools, RestResponse}
 import org.springframework.stereotype
 import org.springframework.beans.factory.annotation.Autowired
 import com.laplacian.luxuryakka.module.user.service.domain.UserDomainService
@@ -29,12 +29,12 @@ class AuthenticationController @Autowired
       request.body.validate[Credentials].map {
         case credentials: Credentials =>
           authenticationService.authenticate(credentials.username, credentials.password).map{ token =>
-            Ok(Json.toJson(RestResponse.data(token)))
+            Ok(Json.toJson(ResponseTools.data(token)))
           }.getOrElse(
-              Unauthorized(RestResponse.authErrorRestResponse(BAD_USERNAME_OR_PASSWORD_ERROR).json))
+              Unauthorized(ResponseTools.errorToRestResponse(BAD_USERNAME_OR_PASSWORD_ERROR).json))
       }.recoverTotal {
         error =>
-          BadRequest(RestResponse.authErrorRestResponse(error.errors.map(_._2).flatten.map(_.message).head).json)
+          BadRequest(ResponseTools.errorToRestResponse(error.errors.map(_._2).flatten.map(_.message).head).json)
       }
   }
 
@@ -44,11 +44,11 @@ class AuthenticationController @Autowired
       request.body.validate[ResponseToken].map {
         case authenticationToken: ResponseToken =>
           authenticationService.refreshToken(authenticationToken.token).map{ token =>
-            Ok(Json.toJson(RestResponse.data(token)))
+            Ok(Json.toJson(ResponseTools.data(token)))
           }.getOrElse(
-              Unauthorized(RestResponse.authErrorRestResponse(BAD_USERNAME_OR_PASSWORD_ERROR).json))
+              Unauthorized(ResponseTools.errorToRestResponse(BAD_USERNAME_OR_PASSWORD_ERROR).json))
       }.recoverTotal {
-        error => BadRequest(RestResponse.authErrorRestResponse(error.errors.map(_._2).flatten.map(_.message).head).json)
+        error => BadRequest(ResponseTools.errorToRestResponse(error.errors.map(_._2).flatten.map(_.message).head).json)
       }
   }
 }
