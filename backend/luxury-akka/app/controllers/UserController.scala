@@ -1,12 +1,9 @@
 package controllers
 
 import com.laplacian.luxuryakka.core.Asserts
-import com.laplacian.luxuryakka.core.messages.Messages
-import com.laplacian.luxuryakka.core.response.{ResponseTools, RestResponse}
+import com.laplacian.luxuryakka.core.response.ResponseTools
 import com.laplacian.luxuryakka.module.authentication.service.AuthenticationService
-import com.laplacian.luxuryakka.module.user.converter.UserCreateModelToUserCreateConverter
-import com.laplacian.luxuryakka.module.user.domain.{UserDetailsEntity, UserCreateEntity}
-import com.laplacian.luxuryakka.module.user.model.UserCreateModel
+import com.laplacian.luxuryakka.module.user.domain.UserCreateEntity
 import com.laplacian.luxuryakka.module.user.service.domain.UserDomainService
 import com.laplacian.luxuryakka.module.user.validation.UserCreateValidator
 import controllers.core.SecuredController
@@ -42,26 +39,11 @@ class UserController @Autowired
       }
   }
 
-  def create = Action.async(parse.json) {
-    implicit request =>
-      request.body.validate[UserCreateModel].map {
-        case userCreateModel: UserCreateModel =>
-          val validationResult = this.userCreateValidator.validate(userCreateModel)
-          if(validationResult.isValid) {
+  def create = MutateJsonAction[UserCreateEntity](userCreateValidator, Manifest.classType(classOf[UserCreateEntity])) {
+    (request, validationResult) =>
+      val generatedId = this.userDomainService.create(validationResult.validatedItem)
+      val createdUser = this.userDomainService.getById(generatedId.id)
 
-            val userCreateEntity = UserCreateModelToUserCreateConverter.convert(validationResult.validatedItem)
-            val generatedId = this.userDomainService.create(userCreateEntity)
-            val createdUser = this.userDomainService.getById(generatedId.id)
-
-            Future.successful(Ok(ResponseTools.of(createdUser, Some(validationResult.messages)).json))
-          } else {
-            Future.successful(BadRequest(validationResult.errorsRestResponse.json))
-          }
-      }.recoverTotal {
-        error =>
-          Future.successful(
-            BadRequest(ResponseTools.errorToRestResponse(error.errors.map(_._2).flatten.map(_.message).head).json)
-          )
-      }
+      Future.successful(Ok(ResponseTools.of(createdUser, Some(validationResult.messages)).json))
   }
 }

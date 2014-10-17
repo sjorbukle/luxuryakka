@@ -1,6 +1,7 @@
 package com.laplacian.luxuryakka.module.user.domain
 
 import com.laplacian.luxuryakka.core.Asserts
+import com.laplacian.luxuryakka.core.messages.MessageKey
 import play.api.libs.json.Json
 
 case class UserCreateEntity
@@ -25,4 +26,10 @@ case class UserCreateEntity
 object UserCreateEntity
 {
   implicit val jsonFormat = Json.format[UserCreateEntity]
+
+  val FIRST_NAME_FORM_ID  = MessageKey("firstName")
+  val LAST_NAME_FORM_ID   = MessageKey("lastName")
+  val EMAIL_FORM_ID       = MessageKey("email")
+  val USERNAME_FORM_ID    = MessageKey("username")
+  val PASSWORD_FORM_ID    = MessageKey("password")
 }

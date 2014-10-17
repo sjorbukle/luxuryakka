@@ -1,9 +1,10 @@
 package controllers.core
 
-import com.laplacian.luxuryakka.core.Asserts
+import com.laplacian.luxuryakka.core.{ValidationResult, Validator, Asserts}
 import com.laplacian.luxuryakka.core.response.ResponseTools
 import com.laplacian.luxuryakka.module.authentication.service.AuthenticationService
 import com.laplacian.luxuryakka.module.user.domain.UserDetailsEntity
+import play.api.libs.json.{Format, Writes, JsValue}
 import play.api.mvc._
 
 import scala.concurrent.Future
@@ -38,6 +39,48 @@ abstract class SecuredController
             Future.successful(
               Unauthorized(ResponseTools.errorToRestResponse(MISSING_TOKEN_ERROR).json)
           ))
+    }
+  }
+
+  def MutateJsonAction[T: Format]
+  (validator: Validator[T], classManifest: Manifest[T])(mutateBlock: (Request[JsValue], ValidationResult[T]) => Future[Result]): Action[JsValue] = {
+    Action.async(parse.json) {
+      request =>
+        request.body.validate[T].map {
+          case item if item.getClass == classManifest.runtimeClass =>
+            val validationResult = validator.validate(item)
+            if(validationResult.isValid) {
+              mutateBlock(request, validationResult)
+            } else {
+              Future.successful(BadRequest(validationResult.errorsRestResponse.json))
+            }
+        }.recoverTotal {
+          error =>
+            Future.successful(
+              BadRequest(ResponseTools.jsErrorToRestResponse[T](error).json)
+            )
+        }
+    }
+  }
+
+  def MutateJsonAuthenticatedAction[T: Format]
+  (validator: Validator[T], mutateBlock: (Request[JsValue], ValidationResult[T]) => Future[Result])(classManifest: Manifest[T]): Action[JsValue] = {
+    AuthenticatedAction(parse.json) {
+      request =>
+        request.body.validate[T].map {
+          case item if item.getClass == classManifest.runtimeClass =>
+            val validationResult = validator.validate(item)
+            if(validationResult.isValid) {
+              mutateBlock(request, validationResult)
+            } else {
+              Future.successful(BadRequest(validationResult.errorsRestResponse.json))
+            }
+        }.recoverTotal {
+          error =>
+            Future.successful(
+              BadRequest(ResponseTools.jsErrorToRestResponse[T](error).json)
+            )
+        }
     }
   }
 

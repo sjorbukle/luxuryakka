@@ -4,14 +4,14 @@ import com.laplacian.luxuryakka.core.messages.Messages
 import com.laplacian.luxuryakka.core.response.ResponseTools
 import play.api.libs.json.Writes
 
-trait Validator[TItem]
+trait Validator[T]
 {
-  def validate(item:TItem) : ValidationResult[TItem]
+  def validate(item:T) : ValidationResult[T]
 }
 
-case class ValidationResult[TItem: Writes]
+case class ValidationResult[T: Writes]
 (
-  validatedItem : TItem,
+  validatedItem : T,
   messages      : Messages
 )
 {
