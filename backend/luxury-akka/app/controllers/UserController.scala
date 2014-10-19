@@ -39,7 +39,7 @@ class UserController @Autowired
       }
   }
 
-  def create = MutateJsonAction[UserCreateEntity](userCreateValidator, Manifest.classType(classOf[UserCreateEntity])) {
+  def create = MutateJsonAction[UserCreateEntity](userCreateValidator) {
     (request, validationResult) =>
       val generatedId = this.userDomainService.create(validationResult.validatedItem)
       val createdUser = this.userDomainService.getById(generatedId.id)

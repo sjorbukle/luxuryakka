@@ -42,12 +42,11 @@ abstract class SecuredController
     }
   }
 
-  def MutateJsonAction[T: Format]
-  (validator: Validator[T], classManifest: Manifest[T])(mutateBlock: (Request[JsValue], ValidationResult[T]) => Future[Result]): Action[JsValue] = {
+  def MutateJsonAction[T: Format: Manifest](validator: Validator[T])(mutateBlock: (Request[JsValue], ValidationResult[T]) => Future[Result]): Action[JsValue] = {
     Action.async(parse.json) {
       request =>
         request.body.validate[T].map {
-          case item if item.getClass == classManifest.runtimeClass =>
+          case item if item.getClass == manifest.runtimeClass =>
             val validationResult = validator.validate(item)
             if(validationResult.isValid) {
               mutateBlock(request, validationResult)
@@ -63,12 +62,11 @@ abstract class SecuredController
     }
   }
 
-  def MutateJsonAuthenticatedAction[T: Format]
-  (validator: Validator[T], mutateBlock: (Request[JsValue], ValidationResult[T]) => Future[Result])(classManifest: Manifest[T]): Action[JsValue] = {
+  def MutateJsonAuthenticatedAction[T: Format: Manifest](validator: Validator[T], mutateBlock: (Request[JsValue], ValidationResult[T]) => Future[Result]): Action[JsValue] = {
     AuthenticatedAction(parse.json) {
       request =>
         request.body.validate[T].map {
-          case item if item.getClass == classManifest.runtimeClass =>
+          case item if item.getClass == manifest.runtimeClass =>
             val validationResult = validator.validate(item)
             if(validationResult.isValid) {
               mutateBlock(request, validationResult)

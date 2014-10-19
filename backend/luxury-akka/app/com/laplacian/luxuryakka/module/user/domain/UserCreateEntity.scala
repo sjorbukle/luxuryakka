@@ -9,8 +9,8 @@ case class UserCreateEntity
   id        : Option[Long],
   firstName : String,
   lastName  : String,
-  email     : String,
   username  : String,
+  email     : String,
   password  : String
 )
 {
@@ -18,8 +18,8 @@ case class UserCreateEntity
   Asserts.argumentIsTrue(id.isEmpty, "create entity must have empty id")
   Asserts.argumentIsNotNull(firstName)
   Asserts.argumentIsNotNull(lastName)
-  Asserts.argumentIsNotNull(email)
   Asserts.argumentIsNotNull(username)
+  Asserts.argumentIsNotNull(email)
   Asserts.argumentIsNotNull(password)
 }
 

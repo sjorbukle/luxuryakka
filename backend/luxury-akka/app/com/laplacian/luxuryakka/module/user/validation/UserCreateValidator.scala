@@ -70,7 +70,14 @@ class UserCreateValidator @Autowired
 
     val fieldValue = item.email
 
+    ValidateUtils.validateEmail(
+      fieldValue,
+      UserCreateEntity.EMAIL_FORM_ID,
+      localMessages
+    )
+
     val doesExistWithEmail = this.userDomainService.doesExistByByEmail(fieldValue)
+    val aaa = this.userDomainService.getAll
     ValidateUtils.isFalse(
       doesExistWithEmail,
       localMessages,
