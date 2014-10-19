@@ -6,20 +6,18 @@ import play.api.libs.json.{Json, Writes}
 
 case class Action[TBefore: Writes, TAfter: Writes]
 (
-  actionId     : Option[Long] = None,
-  userId       : Long,
-  actionDomain : String,
-  domainId     : Long,
-  actionType   : String,
-  before       : Option[TBefore],
-  after        : Option[TAfter],
-  createdOn    : DateTime = DateTime.now
+  id          : Option[Long] = None,
+  userId      : Long,
+  domainType  : DomainType,
+  domainId    : Long,
+  actionType  : String,
+  before      : Option[TBefore],
+  after       : Option[TAfter],
+  createdOn   : DateTime = DateTime.now
 )
 {
-  Asserts.argumentIsNotNull(actionId)
-  Asserts.argumentIsNotNull(userId)
-  Asserts.argumentIsNotNullNorEmpty(actionDomain)
-  Asserts.argumentIsNotNull(domainId)
+  Asserts.argumentIsNotNull(id)
+  Asserts.argumentIsNotNull(domainType)
   Asserts.argumentIsNotNullNorEmpty(actionType)
   Asserts.argumentIsNotNull(before)
   Asserts.argumentIsNotNull(after)
