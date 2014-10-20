@@ -1,10 +1,10 @@
 package com.laplacian.luxuryakka.module.log.action.domain;
 
-public enum DomainType
+public enum ActionType
 {
-    USER("USER");
+    CREATED("CREATED");
 
-    private DomainType(String displayName)
+    private ActionType(String displayName)
     {
         this.displayName = displayName;
     }
