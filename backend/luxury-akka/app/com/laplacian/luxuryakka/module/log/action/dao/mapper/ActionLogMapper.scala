@@ -31,7 +31,7 @@ object ActionLogMapper
     def actionType  = column[ActionType]      (ACTION_TYPE_COLUMN,  O.NotNull)
     def before      = column[JsValue]         (BEFORE_COLUMN,       O.NotNull)
     def after       = column[JsValue]         (AFTER_COLUMN,        O.NotNull)
-    def createdOn   = column[DateTime]        (AFTER_COLUMN,        O.NotNull)
+    def createdOn   = column[DateTime]        (CREATED_ON_COLUMN,   O.NotNull)
 
     def * = (
       id.?,
