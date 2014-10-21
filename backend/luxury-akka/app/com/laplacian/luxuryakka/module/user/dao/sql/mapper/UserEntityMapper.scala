@@ -8,21 +8,21 @@ object UserEntityMapper
 {
   final val USERS_TABLE_NAME = "users"
 
-  final val USER_ID_COLUMN          = "id"
-  final val USER_FIRST_NAME_COLUMN  = "first_name"
-  final val USER_LAST_NAME_COLUMN   = "last_name"
-  final val USER_USERNAME_COLUMN    = "username"
-  final val USER_EMAIL_COLUMN       = "email"
-  final val USER_PASSWORD_COLUMN    = "password"
+  final val ID_COLUMN          = "id"
+  final val FIRST_NAME_COLUMN  = "first_name"
+  final val LAST_NAME_COLUMN   = "last_name"
+  final val USERNAME_COLUMN    = "username"
+  final val EMAIL_COLUMN       = "email"
+  final val PASSWORD_COLUMN    = "password"
 
   class UserCreateEntityMapper(tag: Tag) extends Table[UserCreateEntity](tag, USERS_TABLE_NAME)
   {
-    def id        = column[Long]  (USER_ID_COLUMN,          O.PrimaryKey, O.AutoInc )
-    def firstName = column[String](USER_FIRST_NAME_COLUMN,  O.NotNull)
-    def lastName  = column[String](USER_LAST_NAME_COLUMN,   O.NotNull)
-    def username  = column[String](USER_USERNAME_COLUMN,    O.NotNull)
-    def email     = column[String](USER_EMAIL_COLUMN,       O.NotNull)
-    def password  = column[String](USER_PASSWORD_COLUMN,    O.NotNull)
+    def id        = column[Long]  (ID_COLUMN,          O.PrimaryKey, O.AutoInc )
+    def firstName = column[String](FIRST_NAME_COLUMN,  O.NotNull)
+    def lastName  = column[String](LAST_NAME_COLUMN,   O.NotNull)
+    def username  = column[String](USERNAME_COLUMN,    O.NotNull)
+    def email     = column[String](EMAIL_COLUMN,       O.NotNull)
+    def password  = column[String](PASSWORD_COLUMN,    O.NotNull)
 
     def * = (
       id.?,
@@ -40,12 +40,12 @@ object UserEntityMapper
 
   class UserDetailsEntityMapper(tag: Tag) extends Table[UserDetailsEntity](tag, USERS_TABLE_NAME)
   {
-    def id        = column[Long]  (USER_ID_COLUMN,          O.PrimaryKey, O.AutoInc )
-    def firstName = column[String](USER_FIRST_NAME_COLUMN,  O.NotNull               )
-    def lastName  = column[String](USER_LAST_NAME_COLUMN,   O.NotNull               )
-    def username  = column[String](USER_USERNAME_COLUMN,    O.NotNull               )
-    def email     = column[String](USER_EMAIL_COLUMN,       O.NotNull               )
-    def password  = column[String](USER_PASSWORD_COLUMN,    O.NotNull               )
+    def id        = column[Long]  (ID_COLUMN,          O.PrimaryKey, O.AutoInc )
+    def firstName = column[String](FIRST_NAME_COLUMN,  O.NotNull               )
+    def lastName  = column[String](LAST_NAME_COLUMN,   O.NotNull               )
+    def username  = column[String](USERNAME_COLUMN,    O.NotNull               )
+    def email     = column[String](EMAIL_COLUMN,       O.NotNull               )
+    def password  = column[String](PASSWORD_COLUMN,    O.NotNull               )
 
     def * = (
       id,

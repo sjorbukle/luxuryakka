@@ -77,7 +77,6 @@ class UserCreateValidator @Autowired
     )
 
     val doesExistWithEmail = this.userDomainService.doesExistByByEmail(fieldValue)
-    val aaa = this.userDomainService.getAll
     ValidateUtils.isFalse(
       doesExistWithEmail,
       localMessages,

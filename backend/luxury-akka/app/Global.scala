@@ -5,7 +5,7 @@ import com.laplacian.luxuryakka.configuration.SpringConfiguration
 import org.joda.time.DateTimeZone
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import play.api.mvc.WithFilters
-import play.api.{Application, GlobalSettings}
+import play.api._
 
 object Global extends WithFilters(CORSFilter) with GlobalSettings
 {
@@ -26,6 +26,7 @@ object Global extends WithFilters(CORSFilter) with GlobalSettings
 
   override def onStop(app: play.api.Application)
   {
+    context.getBean(classOf[SpringConfiguration]).actorSystem.shutdown()
     context.stop()
   }
 

@@ -1,6 +1,7 @@
 package com.laplacian.luxuryakka.module.log.action.dao.mapper
 
-import com.laplacian.luxuryakka.module.log.action.domain.{ActionType, ActionDomainType, ActionLog}
+import com.laplacian.luxuryakka.module.log.action.domain.{ActionType, ActionDomainType, ActionLogEntity}
+import com.laplacian.luxuryakka.module.user.dao.sql.mapper.UserEntityMapper
 import org.joda.time.DateTime
 import play.api.libs.json.JsValue
 import scala.slick.driver.PostgresDriver.simple._
@@ -22,7 +23,7 @@ object ActionLogMapper
   implicit val actionDomainTypeColumnType = enumColumnType[ActionDomainType]
   implicit val actionTypeColumnType       = enumColumnType[ActionType]
 
-  class ActionLogMapper(tag: Tag) extends Table[ActionLog](tag, ACTION_LOG_TABLE_NAME)
+  class ActionLogMapper(tag: Tag) extends Table[ActionLogEntity](tag, ACTION_LOG_TABLE_NAME)
   {
     def id          = column[Long]            (ID_COLUMN,           O.PrimaryKey, O.AutoInc )
     def userId      = column[Long]            (USER_ID_COLUMN,      O.NotNull)
@@ -33,16 +34,18 @@ object ActionLogMapper
     def after       = column[JsValue]         (AFTER_COLUMN,        O.NotNull)
     def createdOn   = column[DateTime]        (CREATED_ON_COLUMN,   O.NotNull)
 
+    def user = foreignKey(UserEntityMapper.ID_COLUMN, userId, UserEntityMapper.UserDetailsEntityMapper.query)(_.id)
+
     def * = (
       id.?,
-      userId,
+      userId.?,
       domainType,
       domainId,
       actionType,
       before.?,
       after.?,
       createdOn
-    ) <> ((ActionLog.apply _).tupled, ActionLog.unapply)
+    ) <> ((ActionLogEntity.apply _).tupled, ActionLogEntity.unapply)
   }
   object ActionLogMapper
   {

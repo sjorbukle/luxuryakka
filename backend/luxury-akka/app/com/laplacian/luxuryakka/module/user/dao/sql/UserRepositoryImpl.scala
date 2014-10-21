@@ -4,17 +4,16 @@ import com.laplacian.luxuryakka.module.user.dao.UserRepository
 import com.laplacian.luxuryakka.module.user.dao.sql.mapper.UserEntityMapper._
 import com.laplacian.luxuryakka.module.user.domain.{UserDetailsEntity, UserCreateEntity}
 import com.laplacian.luxuryakka.core.{Asserts, GeneratedId}
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
+import play.api.db.DB
+import play.api.Play.current
 import scala.slick.driver.PostgresDriver.simple._
-import scala.slick.jdbc.JdbcBackend.DatabaseDef
+
 
 @Repository
-class UserRepositoryImpl @Autowired
-(
-  db: DatabaseDef
-) extends UserRepository
+class UserRepositoryImpl() extends UserRepository
 {
+  private lazy val db = Database.forDataSource(DB.getDataSource())
 
   override def insert(item: UserCreateEntity): GeneratedId =
   {
