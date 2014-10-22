@@ -3,7 +3,10 @@ require([
     'jquery',
     'angular-resource',
     'angular-route',
-    'controllers/controllers'
+    'constants',
+    'jwt_services',
+    'services',
+    'controllers'
 ], function(angular) {
     'use strict';
 
@@ -11,19 +14,27 @@ require([
     angular.module('webApp', [
         'ngRoute',
         'ngResource',
-        'app.controllers'
+        'app.controllers',
+        'com.laplacian.luxuryakka.services',
+        'com.laplacian.luxuryakka.jwt_services'
     ])
     .config(function ($routeProvider) {
-        $routeProvider
-            .when('/', {
-                templateUrl: 'src/views/dashboard.html',
-                controller: 'MainCtrl'
-            })
-            .otherwise({
-                redirectTo: '/'
-            });
+        $routeProvider.when('/', {
+            templateUrl: 'src/views/dashboard.html',
+            controller: 'MainCtrl'
+        })
+        .otherwise({
+            redirectTo: '/'
+        });
     })
-    .run( function () {
-        console.log('Started App')
+    .run(function ($rootScope, $location, TOKEN) {
+        $rootScope.$on("$routeChangeStart", function(event, next, current) {
+            var token = localStorage.getItem(TOKEN);
+            if(!token && next.templateUrl != 'src/views/register.html') {
+                $location.path("/login");
+            } else {
+                $rootScope.userSet = token;
+            }
+        });
     });
 });

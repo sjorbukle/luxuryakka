@@ -24,7 +24,11 @@ requirejs.config({
         'angular-resource': '../bower_components/angular-resource/angular-resource',
         'angular-route': '../bower_components/angular-route/angular-route',
         /*require jquery*/
-        'jquery': '../bower_components/jquery/dist/jquery'
+        'jquery': '../bower_components/jquery/dist/jquery',
+        'constants': 'services/constants',
+        'jwt_services': 'services/jwt_services',
+        'services': 'services/services',
+        'controllers': 'controllers/controllers'
         /*--insert code tag--do not remove*/
     },
     shim: {
