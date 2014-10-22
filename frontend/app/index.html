@@ -47,7 +47,7 @@
         </button>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse navbar-collapse-top">
+    <div class="collapse navbar-collapse navbar-collapse-top" ng-if="isLoggedIn" >
         <div class="navbar-right">
             <ul class="nav navbar-nav navbar-left">
                 <li class="dropdown">
@@ -68,11 +68,11 @@
 
 
 </nav>
-<div class="sidebar-background">
+<div class="sidebar-background" ng-if="isLoggedIn" >
     <div class="primary-sidebar-background"></div>
 </div>
 
-<div class="primary-sidebar">
+<div class="primary-sidebar" ng-if="isLoggedIn" >
 
     <!-- Main nav -->
     <ul class="nav navbar-collapse collapse navbar-collapse-primary">

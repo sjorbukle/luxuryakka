@@ -19,12 +19,21 @@ require([
         'com.laplacian.luxuryakka.jwt_services'
     ])
     .config(function ($routeProvider) {
-        $routeProvider.when('/', {
+        $routeProvider
+        .when('/', {
             templateUrl: 'src/views/dashboard.html',
             controller: 'MainCtrl'
         })
+        .when('/register', {
+            templateUrl: 'src/views/register.html',
+            controller: 'RegisterCtrl'
+        })
+        .when('/login', {
+            templateUrl: 'src/views/login.html',
+            controller: 'LoginCtrl'
+        })
         .otherwise({
-            redirectTo: '/'
+            redirectTo: '/login'
         });
     })
     .run(function ($rootScope, $location, TOKEN) {
