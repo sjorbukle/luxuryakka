@@ -3,7 +3,7 @@ require([
     'jquery',
     'angular-resource',
     'angular-route',
-    'home/home'
+    'controllers/controllers'
 ], function(angular) {
     'use strict';
 
@@ -16,7 +16,7 @@ require([
     .config(function ($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'src/home/dashboard.html',
+                templateUrl: 'src/views/dashboard.html',
                 controller: 'MainCtrl'
             })
             .otherwise({
