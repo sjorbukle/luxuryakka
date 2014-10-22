@@ -6,6 +6,7 @@ import com.laplacian.luxuryakka.core.utils.{StringUtils, ValidateUtils}
 import com.laplacian.luxuryakka.core.utils.StringUtils._
 import org.joda.time.format.DateTimeFormatter
 import org.joda.time.{DateTime, DateTimeZone, LocalDate}
+import play.api.libs.json.JsValue
 
 import scala.language.existentials
 
@@ -17,12 +18,20 @@ sealed abstract class Field[TField](key: String, val evaluateBindHelper: (Messag
   final val messageKey = MessageKey(key)
 
   def bind(valueAsString: Option[String]) : TField
+  def bindJsValue(valueAsJsValue: Option[JsValue]): TField
+
   def evaluateBind(valueAsString: Option[String], messages: Messages)
+  def evaluateBindJsValue(valueAsJsValue: Option[JsValue], messages: Messages)
 }
 
 object Field
 {
   private[this] final val DEFAULT_TO_STRING_METHOD = (v: Any) => { v.toString }
+
+  def jsValueToString(jsValue: Option[JsValue]): Option[String] =
+  {
+    jsValue.map(jv => trimExtraQuotes(jv.toString()))
+  }
 
   sealed case class MandatoryField[TField]
   (
@@ -49,6 +58,14 @@ object Field
       bindFromString(valueAsString.get)
     }
 
+    override def bindJsValue(valueAsJsValue: Option[JsValue]): TField =
+    {
+      argumentIsNotNull(valueAsJsValue)
+      argumentIsTrue(valueAsJsValue.isDefined)
+
+      this.bind(Field.jsValueToString(valueAsJsValue))
+    }
+
     override def evaluateBind(valueAsString: Option[String], messages: Messages)
     {
       argumentIsNotNull(valueAsString)
@@ -61,6 +78,17 @@ object Field
       {
         this.evaluateBindHelper(messageKey, valueAsString.get, messages)
       }
+    }
+
+    override def evaluateBindJsValue(valueAsJsValue: Option[JsValue], messages: Messages)
+    {
+      argumentIsNotNull(valueAsJsValue)
+      argumentIsNotNull(messages)
+
+      this.evaluateBind(
+        valueAsString = Field.jsValueToString(valueAsJsValue),
+        messages = messages
+      )
     }
   }
   object MandatoryField
@@ -125,6 +153,14 @@ object Field
       Some(field.bind(valueAsString))
     }
 
+    override def bindJsValue(valueAsJsValue: Option[JsValue]): Option[TField] =
+    {
+      argumentIsNotNull(valueAsJsValue)
+      argumentIsTrue(valueAsJsValue.isDefined)
+
+      this.bind(Field.jsValueToString(valueAsJsValue))
+    }
+
     override def evaluateBind(valueAsString: Option[String], messages: Messages)
     {
       argumentIsNotNull(valueAsString)
@@ -134,6 +170,17 @@ object Field
       {
         this.field.evaluateBind(valueAsString, messages)
       }
+    }
+
+    override def evaluateBindJsValue(valueAsJsValue: Option[JsValue], messages: Messages)
+    {
+      argumentIsNotNull(valueAsJsValue)
+      argumentIsNotNull(messages)
+
+      this.evaluateBind(
+        valueAsString = Field.jsValueToString(valueAsJsValue),
+        messages      = messages
+      )
     }
   }
 

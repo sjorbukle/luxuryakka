@@ -27,6 +27,15 @@ object StringUtils
 
   final val COMMA_SEPARATOR = ","
 
+  def trimExtraQuotes(value: String): String =
+  {
+    if(value.startsWith("\"") && value.endsWith("\"")) {
+      value.substring(1, value.length - 1)
+    } else {
+      value
+    }
+  }
+
   def singleQuote(value: String): String =
   {
     argumentIsNotNull(value)
