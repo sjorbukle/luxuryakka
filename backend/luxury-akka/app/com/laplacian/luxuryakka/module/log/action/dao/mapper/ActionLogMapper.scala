@@ -38,7 +38,7 @@ object ActionLogMapper
 
     def * = (
       id.?,
-      userId.?,
+      userId,
       domainType,
       domainId,
       actionType,

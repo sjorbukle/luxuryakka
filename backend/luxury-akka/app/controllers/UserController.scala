@@ -1,6 +1,7 @@
 package controllers
 
 import akka.actor.{ActorRef, ActorSystem}
+import com.laplacian.luxuryakka.configuration.actor.ActorFactory
 import com.laplacian.luxuryakka.core.Asserts
 import com.laplacian.luxuryakka.core.response.ResponseTools
 import com.laplacian.luxuryakka.module.authentication.service.AuthenticationService
@@ -19,7 +20,6 @@ import scala.concurrent.Future
 @stereotype.Controller
 class UserController @Autowired
 (
-  private val luxuryAkkaActorSystem : ActorSystem,
   private val userDomainService     : UserDomainService,
   private val userCreateValidator   : UserCreateValidator
 )
@@ -27,12 +27,9 @@ class UserController @Autowired
   implicit private val authenticationService: AuthenticationService
 ) extends SecuredController
 {
-  Asserts.argumentIsNotNull(luxuryAkkaActorSystem)
   Asserts.argumentIsNotNull(userDomainService)
   Asserts.argumentIsNotNull(userCreateValidator)
   Asserts.argumentIsNotNull(authenticationService)
-
-  private final val actionLogActorRouter = luxuryAkkaActorSystem.actorSelection("user/actionLogActorRouter")
 
   def read(id: Long) = AuthenticatedAction {
     request =>
@@ -52,14 +49,14 @@ class UserController @Autowired
       val createdUser = this.userDomainService.getById(generatedId.id)
 
       val userCreatedAction = ActionLogEntity.of[UserDetailsEntity, UserDetailsEntity](
-          userId      = None,
+          userId      = createdUser.id,
           domainType  = ActionDomainType.USER,
           domainId    = createdUser.id,
           actionType  = ActionType.CREATED,
           before      = None,
           after       = Some(createdUser)
       )
-      actionLogActorRouter.tell(ActionLogCreateMsg(userCreatedAction), ActorRef.noSender)
+      ActorFactory.actionLogActorRouter.tell(ActionLogCreateMsg(userCreatedAction), ActorRef.noSender)
 
       Future.successful(Ok(ResponseTools.of(createdUser, Some(validationResult.messages)).json))
   }

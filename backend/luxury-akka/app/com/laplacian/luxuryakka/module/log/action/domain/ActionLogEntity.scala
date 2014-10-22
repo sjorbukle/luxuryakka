@@ -7,7 +7,7 @@ import play.api.libs.json.{Json, Writes, JsValue}
 case class ActionLogEntity
 (
   id          : Option[Long] = None,
-  userId      : Option[Long],
+  userId      : Long,
   domainType  : ActionDomainType,
   domainId    : Long,
   actionType  : ActionType,
@@ -28,7 +28,7 @@ object ActionLogEntity
 {
   def of[TBefore: Writes, TAfter: Writes]
   (
-    userId      : Option[Long],
+    userId      : Long,
     domainType  : ActionDomainType,
     domainId    : Long,
     actionType  : ActionType,
