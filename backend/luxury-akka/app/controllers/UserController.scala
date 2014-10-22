@@ -1,6 +1,6 @@
 package controllers
 
-import akka.actor.{ActorRef, ActorSystem}
+import akka.actor.ActorRef
 import com.laplacian.luxuryakka.configuration.actor.ActorFactory
 import com.laplacian.luxuryakka.core.Asserts
 import com.laplacian.luxuryakka.core.response.ResponseTools
@@ -13,7 +13,6 @@ import com.laplacian.luxuryakka.module.user.validation.UserCreateValidator
 import controllers.core.SecuredController
 import org.springframework.stereotype
 import org.springframework.beans.factory.annotation.Autowired
-import play.api.mvc.Action
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
