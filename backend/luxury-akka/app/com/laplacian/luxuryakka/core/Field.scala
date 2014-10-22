@@ -28,6 +28,11 @@ object Field
 {
   private[this] final val DEFAULT_TO_STRING_METHOD = (v: Any) => { v.toString }
 
+  def jsValueToString(jsValue: Option[JsValue]): Option[String] =
+  {
+    jsValue.map(jv => trimExtraQuotes(jv.toString()))
+  }
+
   sealed case class MandatoryField[TField]
   (
     key                       : String,
@@ -58,7 +63,7 @@ object Field
       argumentIsNotNull(valueAsJsValue)
       argumentIsTrue(valueAsJsValue.isDefined)
 
-      this.bind(valueAsJsValue.map(_.toString()))
+      this.bind(Field.jsValueToString(valueAsJsValue))
     }
 
     override def evaluateBind(valueAsString: Option[String], messages: Messages)
@@ -81,7 +86,7 @@ object Field
       argumentIsNotNull(messages)
 
       this.evaluateBind(
-        valueAsString = valueAsJsValue.map(_.toString()),
+        valueAsString = Field.jsValueToString(valueAsJsValue),
         messages = messages
       )
     }
@@ -153,7 +158,7 @@ object Field
       argumentIsNotNull(valueAsJsValue)
       argumentIsTrue(valueAsJsValue.isDefined)
 
-      this.bind(valueAsJsValue.map(_.toString()))
+      this.bind(Field.jsValueToString(valueAsJsValue))
     }
 
     override def evaluateBind(valueAsString: Option[String], messages: Messages)
@@ -173,7 +178,7 @@ object Field
       argumentIsNotNull(messages)
 
       this.evaluateBind(
-        valueAsString = valueAsJsValue.map(_.toString()),
+        valueAsString = Field.jsValueToString(valueAsJsValue),
         messages      = messages
       )
     }

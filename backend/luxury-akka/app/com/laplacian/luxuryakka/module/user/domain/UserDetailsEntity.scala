@@ -8,8 +8,8 @@ case class UserDetailsEntity
   id        : Long,
   firstName : String,
   lastName  : String,
-  email     : String,
   username  : String,
+  email     : String,
   password  : String
 )
 {

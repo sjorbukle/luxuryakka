@@ -2,7 +2,7 @@ package com.laplacian.luxuryakka.module.user.validation
 
 import com.laplacian.luxuryakka.core.{ValidationResult, Validator, Asserts}
 import com.laplacian.luxuryakka.core.messages.Messages
-import com.laplacian.luxuryakka.module.user.model.UserCreateModel
+import com.laplacian.luxuryakka.module.user.domain.UserCreateEntity
 import com.laplacian.luxuryakka.module.user.service.domain.UserDomainService
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,11 +12,11 @@ import com.laplacian.luxuryakka.core.utils.ValidateUtils
 class UserCreateValidator @Autowired
 (
   private val userDomainService: UserDomainService
-) extends Validator[UserCreateModel]
+) extends Validator[UserCreateEntity]
 {
   Asserts.argumentIsNotNull(userDomainService)
 
-  override def validate(item: UserCreateModel): ValidationResult[UserCreateModel] =
+  override def validate(item: UserCreateEntity): ValidationResult[UserCreateEntity] =
   {
     Asserts.argumentIsNotNull(item)
 
@@ -34,121 +34,100 @@ class UserCreateValidator @Autowired
     )
   }
 
-  private def validateFirstName(item: UserCreateModel, validationMessages: Messages)
+  private def validateFirstName(item: UserCreateEntity, validationMessages: Messages)
   {
     val localMessages = Messages.of(validationMessages)
 
-    val valueCandidate = item.firstName
+    val fieldValue = item.firstName
 
-    UserCreateModel.FIRST_NAME_FIELD.evaluateBindJsValue(valueCandidate, localMessages)
-    if(!localMessages.hasErrors()) {
-      val description = UserCreateModel.FIRST_NAME_FIELD.bindJsValue(valueCandidate)
-      ValidateUtils.validateLengthIsLessThanOrEqual(
-        description,
-        80,
-        localMessages,
-        UserCreateModel.FIRST_NAME_FIELD.key,
-        "must be less than or equal to 80 character"
-      )
-    }
+    ValidateUtils.validateLengthIsLessThanOrEqual(
+      fieldValue,
+      80,
+      localMessages,
+      UserCreateEntity.FIRST_NAME_FORM_ID.value,
+      "must be less than or equal to 80 character"
+    )
   }
 
-  private def validateLastName(item: UserCreateModel, validationMessages: Messages)
+  private def validateLastName(item: UserCreateEntity, validationMessages: Messages)
   {
     val localMessages = Messages.of(validationMessages)
 
-    val valueCandidate = item.lastName
+    val fieldValue = item.lastName
 
-    UserCreateModel.LAST_NAME_FIELD.evaluateBindJsValue(valueCandidate, localMessages)
-    if(!localMessages.hasErrors()) {
-      val lastName = UserCreateModel.LAST_NAME_FIELD.bindJsValue(valueCandidate)
-      ValidateUtils.validateLengthIsLessThanOrEqual(
-        lastName,
-        80,
-        localMessages,
-        UserCreateModel.LAST_NAME_FIELD.key,
-        "must be less than or equal to 80 character"
-      )
-    }
+    ValidateUtils.validateLengthIsLessThanOrEqual(
+      fieldValue,
+      80,
+      localMessages,
+      UserCreateEntity.LAST_NAME_FORM_ID.value,
+      "must be less than or equal to 80 character"
+    )
   }
 
-  private def validateEmail(item: UserCreateModel, validationMessages: Messages)
+  private def validateEmail(item: UserCreateEntity, validationMessages: Messages)
   {
     val localMessages = Messages.of(validationMessages)
 
-    val valueCandidate = item.email
+    val fieldValue = item.email
 
-    UserCreateModel.EMAIL_FIELD.evaluateBindJsValue(valueCandidate, localMessages)
-    if(!localMessages.hasErrors)
-    {
-      val value = UserCreateModel.EMAIL_FIELD.bindJsValue(valueCandidate)
-      ValidateUtils.validateEmail(value, UserCreateModel.EMAIL_FIELD.messageKey, localMessages)
-      if(!localMessages.hasErrors)
-      {
-        val doesExistWithEmail = this.userDomainService.doesExistByByEmail(value)
-        ValidateUtils.isFalse(
-          doesExistWithEmail,
-          localMessages,
-          UserCreateModel.EMAIL_FIELD.key,
-          "User already exists with this email"
-        )
-      }
+    ValidateUtils.validateEmail(
+      fieldValue,
+      UserCreateEntity.EMAIL_FORM_ID,
+      localMessages
+    )
 
-      ValidateUtils.validateLengthIsLessThanOrEqual(
-        value,
-        80,
-        localMessages,
-        UserCreateModel.EMAIL_FIELD.key,
-        "must be less than or equal to 80 character"
-      )
-    }
+    val doesExistWithEmail = this.userDomainService.doesExistByByEmail(fieldValue)
+    ValidateUtils.isFalse(
+      doesExistWithEmail,
+      localMessages,
+      UserCreateEntity.EMAIL_FORM_ID.value,
+      "User already exists with this email"
+    )
+
+    ValidateUtils.validateLengthIsLessThanOrEqual(
+      fieldValue,
+      80,
+      localMessages,
+      UserCreateEntity.EMAIL_FORM_ID.value,
+      "must be less than or equal to 80 character"
+    )
   }
 
-  private def validateUserName(item: UserCreateModel, validationMessages: Messages)
+  private def validateUserName(item: UserCreateEntity, validationMessages: Messages)
   {
     val localMessages = Messages.of(validationMessages)
 
-    val valueCandidate = item.username
+    val fieldValue = item.username
 
-    UserCreateModel.USERNAME_FIELD.evaluateBindJsValue(valueCandidate, localMessages)
-    if(!localMessages.hasErrors)
-    {
-      val value = UserCreateModel.USERNAME_FIELD.bindJsValue(valueCandidate)
+    val doesExistWithUsername = this.userDomainService.doesExistByUsername(fieldValue)
+    ValidateUtils.isFalse(
+      doesExistWithUsername,
+      localMessages,
+      UserCreateEntity.USERNAME_FORM_ID.value,
+      "User already exists with this username"
+    )
 
-      val doesExistWithUsername = this.userDomainService.doesExistByUsername(value)
-      ValidateUtils.isFalse(
-        doesExistWithUsername,
-        localMessages,
-        UserCreateModel.USERNAME_FIELD.key,
-        "User already exists with this username"
-      )
-
-      ValidateUtils.validateLengthIsLessThanOrEqual(
-        value,
-        80,
-        localMessages,
-        UserCreateModel.USERNAME_FIELD.key,
-        "must be less than or equal to 80 character"
-      )
-    }
+    ValidateUtils.validateLengthIsLessThanOrEqual(
+      fieldValue,
+      80,
+      localMessages,
+      UserCreateEntity.USERNAME_FORM_ID.value,
+      "must be less than or equal to 80 character"
+    )
   }
 
-  private def validatePassword(item: UserCreateModel, validationMessages: Messages)
+  private def validatePassword(item: UserCreateEntity, validationMessages: Messages)
   {
     val localMessages = Messages.of(validationMessages)
 
-    val valueCandidate = item.password
+    val fieldValue = item.password
 
-    UserCreateModel.PASSWORD_FIELD.evaluateBindJsValue(valueCandidate, localMessages)
-    if(!localMessages.hasErrors()) {
-      val password = UserCreateModel.PASSWORD_FIELD.bindJsValue(valueCandidate)
-      ValidateUtils.validateLengthIsLessThanOrEqual(
-        password,
-        80,
-        localMessages,
-        UserCreateModel.PASSWORD_FIELD.key,
-        "must be less than or equal to 80 character"
-      )
-    }
+    ValidateUtils.validateLengthIsLessThanOrEqual(
+      fieldValue,
+      80,
+      localMessages,
+      UserCreateEntity.PASSWORD_FORM_ID.value,
+      "must be less than or equal to 80 character"
+    )
   }
 }

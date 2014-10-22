@@ -18,5 +18,7 @@ libraryDependencies ++= Seq(
   "org.springframework" % "spring-aop" % springVersion,
   "org.springframework" % "spring-tx" % springVersion,
   "org.springframework" % "spring-jdbc" % springVersion,
-  "com.nimbusds" % "nimbus-jose-jwt" % "2.25"
+  "com.nimbusds" % "nimbus-jose-jwt" % "2.25",
+  "com.typesafe.slick" %% "slick" % "2.1.0",
+  "org.slf4j" % "slf4j-nop" % "1.6.4"
 )

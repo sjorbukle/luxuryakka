@@ -29,11 +29,11 @@ object ResponseTools
     )
   }
 
-  def data[TItem: Writes](data: TItem) =
+  def data[T: Writes](data: T) =
   {
     Asserts.argumentIsNotNull(data)
 
-    RestResponse[TItem](data = Some(data))
+    RestResponse[T](data = Some(data))
   }
 
   def messages(messagesRestResponse: MessagesRestResponse) =
@@ -46,22 +46,33 @@ object ResponseTools
     )
   }
 
-  def of[TItem: Writes](data: TItem, messagesRestResponse: MessagesRestResponse) =
+  def of[T: Writes](data: T, messages: Option[Messages]) =
   {
     Asserts.argumentIsNotNull(data)
-    Asserts.argumentIsNotNull(messagesRestResponse)
+    Asserts.argumentIsNotNull(messages)
 
-    RestResponse[TItem](
+    RestResponse[T](
       data      = Some(data),
-      messages  = Some(messagesRestResponse)
+      messages  = messages.map(ResponseTools.messagesToMessagesRestResponse)
     )
   }
 
-  def jsErrorToRestResponse(errors: JsError) =
+  def jsErrorToRestResponse[T: Writes](error: JsError): RestResponse[T] =
   {
-    Asserts.argumentIsNotNull(errors)
+    Asserts.argumentIsNotNull(error)
 
-    ResponseTools.errorsToRestResponse(errors.errors.map(_._2).flatten.map(_.message).toList)
+    val errorsGroupByFormId = error.errors.groupBy(_._1.toJsonString).toList
+
+    val restLocalErrors = errorsGroupByFormId.map(v =>
+      LocalMessagesRestResponse(
+        formIdentifier = v._1.replaceFirst("obj.", ""),
+        errors = v._2.map(_._2).flatten.map(_.message).toList
+      )
+    )
+
+    val messagesRestResponse = MessagesRestResponse(local = restLocalErrors)
+
+    RestResponse[T](data = None, messages = Some(messagesRestResponse))
   }
 
   def errorsToRestResponse(errors: List[String]) =
