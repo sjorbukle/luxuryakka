@@ -2,6 +2,10 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Users routes
-GET        /api/users/:id      @controllers.UserController.read(id: Long)
-POST       /api/users          @controllers.UserController.create
+# Authenticate
+POST /api/authenticate  @controllers.AuthenticationController.authenticate
+POST /api/refresh-token @controllers.AuthenticationController.refreshToken
+
+
+# API, v1
+->            /api/v1  api.v1.Routes
