@@ -19,11 +19,8 @@ define(['angular'], function(angular) {
             }
         });
     }])
-    .controller('DashboardCtrl', ['$scope', function($scope) {
-        $scope.dashboardValue = 'Logged in user';
-    }])
     .controller('RegisterCtrl', ['$scope', 'luxuryakka', '$location',
-        function($scope, expensetracker, $location) {
+        function($scope, luxuryakka, $location) {
             $scope.user = {};
 
             $scope.registerAccount = function () {

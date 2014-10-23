@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
                 var baseBackendUrl = CLOUD;
                 return {
                     registerAccount: function (payload) {  // has no token in headers
-                        return $http.post(baseBackendUrl + '/api/v1/user', angular.toJson(payload))
+                        return $http.post(baseBackendUrl + '/api/v1/users', angular.toJson(payload))
                             .error(function (reason, code) {
                                 console.log('Error: registerAccount ' + JSON.stringify(reason) + ' Code:' + code);
                             })
@@ -46,7 +46,7 @@ define(['angular'], function(angular) {
                         return TokenInspector.getOrRefreshToken()
                             .then(function (token) {
                                 return $http({
-                                    url: baseBackendUrl + '/api/v1/user/' + id,
+                                    url: baseBackendUrl + '/api/v1/users/' + id,
                                     method: 'GET',
                                     headers: { Authorization: token }
                                 })

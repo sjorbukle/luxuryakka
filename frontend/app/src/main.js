@@ -20,7 +20,7 @@ require([
     ])
     .config(function ($routeProvider) {
         $routeProvider
-        .when('/', {
+        .when('/dashboard', {
             templateUrl: 'src/views/dashboard.html',
             controller: 'MainCtrl'
         })
@@ -33,7 +33,7 @@ require([
             controller: 'LoginCtrl'
         })
         .otherwise({
-            redirectTo: '/login'
+            redirectTo: '/dashboard'
         });
     })
     .run(function ($rootScope, $location, TOKEN) {

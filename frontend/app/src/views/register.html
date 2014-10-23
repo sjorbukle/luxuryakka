@@ -1,35 +1,51 @@
-<div class="box-content">
-    <form class="fill-up" name="registerForm" ng-submit="registerAccount()" novalidate>
-        <div class="row">
-            <div class="col-lg-6">
+<div class="box">
+    <div class="box-header">
+        <span class="title">
+            <i class="icon-warning-sign"></i>
+            Register account
+        </span>
+    </div>
+    <div class="box-content">
+        <form class="form-horizontal fill-up" name="registerForm" ng-submit="registerAccount()" novalidate>
+                <div class="padded">
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">First Name</label>
+                        <div class="col-lg-10">
+                            <input id="firstName" name="firstName" type="text" ng-model="user.firstName">
+                        </div>
+                    </div>
 
-                <ul class="padded separate-sections">
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Last Name</label>
+                        <div class="col-lg-10">
+                            <input id="lastName" name="lastName" type="text" ng-model="user.lastName">
+                        </div>
+                    </div>
 
-                    <li class="input">
-                        <input placeholder="First Name" type="text">
-                    </li>
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Username</label>
+                        <div class="col-lg-10">
+                            <input id="username" name="username" type="text" ng-model="user.username">
+                        </div>
+                    </div>
 
-                    <li class="input">
-                        <input placeholder="Last Name" type="text">
-                    </li>
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Email</label>
+                        <div class="col-lg-10">
+                            <input id="email" name="email"  type="text" ng-model="user.email">
+                        </div>
+                    </div>
 
-                    <li class="input">
-                        <input placeholder="Username" type="text">
-                    </li>
-
-                    <li class="input">
-                        <input placeholder="Email" type="password">
-                    </li>
-
-                    <li class="input">
-                        <input placeholder="Password" type="password">
-                    </li>
-                </ul>
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Password</label>
+                        <div class="col-lg-10">
+                            <input id="password" name="password" type="password" ng-model="user.password">
+                        </div>
+                    </div>
+                </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-blue" ng-disabled="registerForm.$invalid">&nbsp;Register</button>
             </div>
-        </div>
-        <div class="form-actions">
-            <button type="submit" class="btn btn-blue" ng-disabled="registerForm.$invalid">Register</button>
-            <button type="button" class="btn btn-default">Cancel</button>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
