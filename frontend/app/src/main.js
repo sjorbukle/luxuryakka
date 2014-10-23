@@ -6,7 +6,8 @@ require([
     'constants',
     'jwt_services',
     'services',
-    'controllers'
+    'controllers',
+    'bootstrap'
 ], function(angular) {
     'use strict';
 
@@ -20,6 +21,10 @@ require([
     ])
     .config(function ($routeProvider) {
         $routeProvider
+        .when('/profile', {
+            templateUrl: 'src/views/profile.html',
+            controller: 'ProfileCtrl'
+        })
         .when('/dashboard', {
             templateUrl: 'src/views/dashboard.html',
             controller: 'MainCtrl'
@@ -32,8 +37,12 @@ require([
             templateUrl: 'src/views/login.html',
             controller: 'LoginCtrl'
         })
+        .when('/logout', {
+            template: '',
+            controller: 'LogoutCtrl'
+        })
         .otherwise({
-            redirectTo: '/dashboard'
+            redirectTo: '/login'
         });
     })
     .run(function ($rootScope, $location, TOKEN) {

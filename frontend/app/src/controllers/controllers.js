@@ -2,7 +2,7 @@ define(['angular'], function(angular) {
     angular.module('app.controllers', [])
     .controller('MainCtrl', ['$scope', 'Helper', '$location', 'luxuryakka','TOKEN','$rootScope',
         function($scope, Helper, $location, luxuryakka, TOKEN, $rootScope) {
-        $scope.pageTitle = 'Luxury Akka';
+        $scope.pageTitleValue = 'Luxury Akka';
 
         $scope.isActive = function(route) {
             return route === $location.path();
@@ -18,6 +18,15 @@ define(['angular'], function(angular) {
                     });
             }
         });
+    }])
+    .controller('ProfileCtrl', ['$scope', 'TOKEN', 'luxuryakka', 'Helper',
+    function($scope, TOKEN, luxuryakka, Helper) {
+        var token = localStorage.getItem(TOKEN);
+        var userID = Helper.deserializeJWT(token).userId;
+        luxuryakka.getUserById(parseInt(userID))
+            .then(function (response) {
+                $scope.user = response.data;
+            });
     }])
     .controller('RegisterCtrl', ['$scope', 'luxuryakka', '$location',
         function($scope, luxuryakka, $location) {
@@ -61,4 +70,13 @@ define(['angular'], function(angular) {
                     });
             }
         }])
+        .controller('LogoutCtrl', ['$scope', 'TOKEN','$location',
+        function ($scope, TOKEN, $location) {
+
+            if(localStorage.getItem(TOKEN)) {
+                localStorage.removeItem(TOKEN);
+                location.reload(true);
+            }
+            $location.path('/login');
+        }]);
 });

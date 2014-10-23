@@ -12,13 +12,15 @@ requirejs.config({
         'constants': 'services/constants',
         'jwt_services': 'services/jwt_services',
         'services': 'services/services',
-        'controllers': 'controllers/controllers'
+        'controllers': 'controllers/controllers',
+        'bootstrap': '../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap'
         /*--insert code tag--do not remove*/
     },
     shim: {
         'angular': { exports: 'angular', deps: ['jquery'] },
         'angular-mocks': ['angular'],
         'angular-resource': ['angular'],
-        'angular-route': ['angular']
+        'angular-route': ['angular'],
+        'bootstrap': { exports: 'bootstrap', deps: ['jquery'] }
     }/*--requirejs config copy tag--do not remove*/
 });
