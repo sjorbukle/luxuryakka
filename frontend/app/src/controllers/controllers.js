@@ -38,6 +38,8 @@ define(['angular'], function(angular) {
                 luxuryakka.registerAccount($scope.user)
                     .then(function () {
                         $location.path('/login');
+                    }, function (err) {
+
                     });
             };
         }])

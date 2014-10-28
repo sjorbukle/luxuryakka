@@ -6,19 +6,25 @@
         <div class="box-content padded">
             <form name="registerForm" class="separate-sections" ng-submit="registerAccount()">
 
-                <div class="input-group addon-left">
+                <div class="input-group addon-left has-error">
                     <span class="input-group-addon" href="#"><i class="icon-user"></i></span>
-                    <input placeholder="First Name" name="firstName" ng-model="user.firstName" type="text"/>
+                    <input placeholder="First Name" name="firstName" ng-model="user.firstName" type="text" />
                 </div>
 
                 <div class="input-group addon-left">
                     <span class="input-group-addon" href="#"><i class="icon-user"></i></span>
                     <input placeholder="Last Name" name="lastName" ng-model="user.lastName" type="text"/>
+                    <span class="fa fa-close form-control-feedback"></span>
+                    <span class="warning-response">Warning: last name is serbian</span>
+
                 </div>
 
                 <div class="input-group addon-left">
                     <span class="input-group-addon" href="#"><i class="icon-envelope-alt"></i></span>
                     <input placeholder="Email" name="email" ng-model="user.email" type="text"/>
+                    <span class="fa fa-close form-control-feedback"></span>
+                    <span class="error-response">Error: mail is invalid</span>
+
                 </div>
 
                 <div class="input-group addon-left">
