@@ -8,6 +8,8 @@ define(['angular'], function(angular) {
             return route === $location.path();
         };
 
+        $scope.isLoggedIn = false;
+
         $rootScope.$watch('userSet', function( token ){
             if(token){
                 var userID = Helper.deserializeJWT(token).userId;
