@@ -3,7 +3,7 @@ require([
     'jquery',
     'angular-resource',
     'angular-route',
-    'constants',
+    'envconfig',
     'jwt_services',
     'services',
     'controllers',
@@ -16,6 +16,7 @@ require([
         'ngRoute',
         'ngResource',
         'app.controllers',
+        'envconfig',
         'com.laplacian.luxuryakka.services',
         'com.laplacian.luxuryakka.jwt_services'
     ])

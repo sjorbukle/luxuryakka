@@ -10,6 +10,7 @@ requirejs.config({
         /*require jquery*/
         'jquery': '../bower_components/jquery/dist/jquery',
         'constants': 'services/constants',
+        'envconfig': 'services/env-config',
         'jwt_services': 'services/jwt_services',
         'services': 'services/services',
         'controllers': 'controllers/controllers',
