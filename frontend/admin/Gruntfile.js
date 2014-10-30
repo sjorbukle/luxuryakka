@@ -51,7 +51,7 @@ module.exports = function(grunt) {
                 constants: {
                     ENV: {
                         name: 'staging',
-                        apiEndpoint: 'http://http://staging-luxury-akka-backend.herokuapp.com'
+                        apiEndpoint: 'http://0.0.0.0:9000'
                     },
                     TOKEN: 'luxury-akka-token',
                     REFRESH_TOKEN_VALID_TIME: 300000
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
                 constants: {
                     ENV: {
                         name: 'production',
-                        apiEndpoint: 'http://http://staging-luxury-akka-backend.herokuapp.com'
+                        apiEndpoint: 'https://staging-luxury-akka-backend.herokuapp.com'
                     },
                     TOKEN: 'luxury-akka-token',
                     REFRESH_TOKEN_VALID_TIME: 300000

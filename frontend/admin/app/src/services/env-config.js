@@ -1,7 +1,7 @@
 define(["angular"], function(angular) {
  angular.module('envconfig', [])
 
-.constant('ENV', {name:'development',apiEndpoint:'http://0.0.0.0:9000'})
+.constant('ENV', {name:'production',apiEndpoint:'http://http://staging-luxury-akka-backend.herokuapp.com'})
 
 .constant('TOKEN', 'luxury-akka-token')
 
