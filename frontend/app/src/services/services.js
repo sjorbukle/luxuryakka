@@ -1,11 +1,11 @@
 define(['angular'], function(angular) {
     angular.module('com.laplacian.luxuryakka.services', [
         'com.laplacian.luxuryakka.jwt_services',
-        'com.laplacian.luxuryakka.constants'
+        'envconfig'
     ])
-        .factory('luxuryakka', ['$q', '$http', 'TokenInspector', 'CLOUD',
-            function ($q, $http, TokenInspector, CLOUD) {
-                var baseBackendUrl = CLOUD;
+        .factory('luxuryakka', ['$q', '$http', 'TokenInspector', 'ENV',
+            function ($q, $http, TokenInspector, ENV) {
+                var baseBackendUrl = ENV.apiEndpoint;
                 return {
                     registerAccount: function (payload) {  // has no token in headers
                         return $http.post(baseBackendUrl + '/api/v1/users', angular.toJson(payload))

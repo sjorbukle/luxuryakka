@@ -1,29 +1,40 @@
-<div class="padded">
-    <div class="login box" style="margin-top: 80px;">
+<div class="col-md-10 padded">
+    <div class="box">
         <div class="box-header">
-            <span class="title">Register</span>
+            <span class="title"><i class="fa fa-user"></i> Register</span>
         </div>
         <div class="box-content padded">
             <form name="registerForm" class="separate-sections" ng-submit="registerAccount()">
 
-                <div class="input-group addon-left">
-                    <input placeholder="First Name" name="firstName" ng-model="user.firstName" type="text"/>
+                <div class="input-group addon-left has-error">
+                    <span class="input-group-addon" href="#"><i class="icon-user"></i></span>
+                    <input placeholder="First Name" name="firstName" ng-model="user.firstName" type="text" />
                 </div>
 
                 <div class="input-group addon-left">
+                    <span class="input-group-addon" href="#"><i class="icon-user"></i></span>
                     <input placeholder="Last Name" name="lastName" ng-model="user.lastName" type="text"/>
+                    <span class="fa fa-close form-control-feedback"></span>
+                    <span class="warning-response">Warning: last name is serbian</span>
+
                 </div>
 
                 <div class="input-group addon-left">
+                    <span class="input-group-addon" href="#"><i class="icon-envelope-alt"></i></span>
                     <input placeholder="Email" name="email" ng-model="user.email" type="text"/>
+                    <span class="fa fa-close form-control-feedback"></span>
+                    <span class="error-response">Error: mail is invalid</span>
+
                 </div>
 
                 <div class="input-group addon-left">
+                    <span class="input-group-addon" href="#"><i class="icon-key"></i></span>
                     <input placeholder="Username" name="username" ng-model="user.username" type="text"/>
                 </div>
 
                 <div class="input-group addon-left">
-                      <input placeholder="Password" name="password" ng-model="user.password" type="password"/>
+                    <span class="input-group-addon" href="#"><i class="icon-key"></i></span>
+                    <input placeholder="Password" name="password" ng-model="user.password" type="password"/>
                 </div>
                 <div>
                     <button class="btn btn-blue btn-block">

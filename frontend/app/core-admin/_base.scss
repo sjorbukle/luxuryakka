@@ -153,3 +153,23 @@ h1, h2, h3, h4, h5, h6, th {
     margin: 0;
   }
 }
+
+.message-box {
+  position: absolute; top: 2.13em; left: 35px; z-index: 2; display: block;
+  width: 400px; height: 40px; text-align: left;
+}
+
+.error-response {
+  @extend .message-box;
+  color: red;
+}
+
+.warning-response {
+  @extend .message-box;
+  color: orange;
+}
+
+.info-response {
+  @extend .message-box;
+  color: darkgreen;
+}

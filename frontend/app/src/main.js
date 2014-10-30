@@ -3,23 +3,28 @@ require([
     'jquery',
     'angular-resource',
     'angular-route',
-    'constants',
+    'envconfig',
     'jwt_services',
     'services',
     'controllers',
-    'bootstrap'
+    'bootstrap-sass'
 ], function(angular) {
     'use strict';
 
     /*App Module*/
+    angular.element(document).ready(function () {
+        /*smart works go here*/
+        var $html = angular.element('html');
+
     angular.module('webApp', [
         'ngRoute',
         'ngResource',
         'app.controllers',
+        'envconfig',
         'com.laplacian.luxuryakka.services',
         'com.laplacian.luxuryakka.jwt_services'
     ])
-    .config(function ($routeProvider) {
+    .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
         .when('/profile', {
             templateUrl: 'src/views/profile.html',
@@ -44,8 +49,8 @@ require([
         .otherwise({
             redirectTo: '/login'
         });
-    })
-    .run(function ($rootScope, $location, TOKEN) {
+    }])
+    .run(['$rootScope', '$location', 'TOKEN', function ($rootScope, $location, TOKEN) {
         $rootScope.$on("$routeChangeStart", function(event, next, current) {
             var token = localStorage.getItem(TOKEN);
             if(!token && next.templateUrl != 'src/views/register.html') {
@@ -54,5 +59,9 @@ require([
                 $rootScope.userSet = token;
             }
         });
+    }]);
+
+    /*bootstrap model*/
+    angular.bootstrap($html, ['webApp']);
     });
 });
