@@ -1,5 +1,4 @@
-@import "mixin_helpers";
-@import "bootstrap-sass-official/assets/stylesheets/bootstrap/mixins";
+@import "../bower_components/bootstrap-sass/lib/mixins";
 
 .pagination > ul {
   @include box-shadow(none);

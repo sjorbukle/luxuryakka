@@ -1,6 +1,0 @@
-define(['angular'], function(angular) {
-    angular.module('com.laplacian.luxuryakka.constants', [])
-        .constant('REFRESH_TOKEN_VALID_TIME', 300000)
-        .constant('TOKEN', 'luxury-akka-token')
-        .constant('CLOUD', 'http://localhost:9000');
-});

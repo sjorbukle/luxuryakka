@@ -16,12 +16,47 @@ module.exports = function(grunt) {
 
     // Define the configuration for all the tasks
     grunt.initConfig({
-
         // Project settings
         yeoman: {
             // Configurable paths
             app: 'app',
             dist: 'dist'
+        },
+
+        ngconstant: {
+            // Options for all targets
+            options: {
+                space: '  ',
+                wrap: 'define(["angular"], function(angular) {\n {%= __ngModule %} });',
+                name: 'envconfig'
+            },
+            // Environment targets
+            development: {
+                options: {
+                    dest: '<%= yeoman.app %>/src/services/env-config.js'
+                },
+                constants: {
+                    ENV: {
+                        name: 'development',
+                        apiEndpoint: 'http://0.0.0.0:9000'
+                    },
+                    TOKEN: 'luxury-akka-token',
+                    REFRESH_TOKEN_VALID_TIME: 300000
+                }
+            },
+            production: {
+                options: {
+                    dest: '<%= yeoman.app %>/src/services/env-config.js'
+                },
+                constants: {
+                    ENV: {
+                        name: 'production',
+                        apiEndpoint: 'http://luxury-akka-josip.herokuapp.com'
+                    },
+                    TOKEN: 'luxury-akka-token',
+                    REFRESH_TOKEN_VALID_TIME: 300000
+                }
+            }
         },
 
         // The actual grunt server settings
@@ -66,7 +101,7 @@ module.exports = function(grunt) {
             },
             requirejsConfig: {
                 files: ['<%= yeoman.app %>/src/config.js'],
-                tasks: ['requirejs-config-copy'],
+                tasks: ['requirejs-config-copy']
             },
             jstest: {
                 files: ['test/spec/{,*/}*.js'],
@@ -119,7 +154,8 @@ module.exports = function(grunt) {
                     src: [
                         '<%= yeoman.dist %>/src/*.js', // remove config.js
                         '<%= yeoman.dist %>/src/**/*.spec.js', // remove all test files
-                        '!<%= yeoman.dist %>/src/main.js' // keep main.js file
+                        '!<%= yeoman.dist %>/src/main.js', // keep main.js file
+                        '!<%= yeoman.dist %>/src/config.js' // keep main.js file
                     ]
                 }]
             },
@@ -327,8 +363,7 @@ module.exports = function(grunt) {
                         'images/{,*/}*.webp',
                         '{,*/}*.html',
                         'styles/fonts/{,*/}*.*',
-                        'bower_components/sass-bootstrap/fonts/*.*',
-                        'bower_components/font-awesome/fonts/*.*'
+                        'bower_components/{,*/}*.*'
                     ]
                 }]
             },
@@ -354,11 +389,18 @@ module.exports = function(grunt) {
         }
     });
 
+
+    grunt.loadNpmTasks('grunt-bower-requirejs');
+
+    grunt.registerTask('default', ['bower']);
+
     grunt.registerTask('serve', function(target) {
         if (target === 'dist') { return grunt.task.run(['build', 'connect:dist:keepalive']); }
 
         grunt.task.run([
             'clean:server',
+            'bower',
+            'ngconstant:development',
             'concurrent:server',
             'concat',
             'autoprefixer',
@@ -377,7 +419,7 @@ module.exports = function(grunt) {
             grunt.task.run([
                 'clean:server',
                 'concurrent:test',
-                'autoprefixer',
+                'autoprefixer'
             ]);
         }
 
@@ -390,7 +432,7 @@ module.exports = function(grunt) {
     //function for process requirejs file
     function replaceBetween(string, start, end, what) {
         return string.substring(0, start) + what + string.substring(end);
-    };
+    }
 
     grunt.registerTask('requirejs-bundle', function() {
         var indexHTML = grunt.file.read('dist/index.html');
@@ -415,6 +457,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
+        'bower',
+        'ngconstant:production',
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',
@@ -425,8 +469,8 @@ module.exports = function(grunt) {
         'requirejs-bundle',
         'uglify',
         // 'rev', // turns on this task if you want to use revision
-        'usemin',
-        'htmlmin'
+        'usemin'
+//        'htmlmin'
     ]);
 
     grunt.registerTask('default', [

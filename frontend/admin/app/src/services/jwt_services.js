@@ -1,6 +1,6 @@
 define(['angular'], function(angular) {
     angular.module('com.laplacian.luxuryakka.jwt_services', [
-        'com.laplacian.luxuryakka.constants'
+        'envconfig'
     ])
         .factory('Helper',
         function () {
@@ -47,8 +47,8 @@ define(['angular'], function(angular) {
                 }
             };
         })
-        .factory('TokenInspector', ['$q', 'REFRESH_TOKEN_VALID_TIME', 'TOKEN', 'Helper', 'CLOUD', '$http',
-            function ($q, REFRESH_TOKEN_VALID_TIME, TOKEN, Helper, CLOUD, $http) {
+        .factory('TokenInspector', ['$q', 'REFRESH_TOKEN_VALID_TIME', 'TOKEN', 'Helper', 'ENV', '$http',
+            function ($q, REFRESH_TOKEN_VALID_TIME, TOKEN, Helper, ENV, $http) {
                 return {
                     getOrRefreshToken: function () {
                         var deferred = $q.defer();
@@ -67,7 +67,7 @@ define(['angular'], function(angular) {
                                     token: token
                                 };
                                 console.log('Refresh token!');
-                                $http.post(CLOUD + '/api/refresh-token', angular.toJson(currentToken))
+                                $http.post(ENV.apiEndpoint + '/api/refresh-token', angular.toJson(currentToken))
                                     .error(function (reason, code) {
                                         console.log('Error: refreshToken' + JSON.stringify(reason) + ' Code:' + code);
                                         deferred.reject('Refused to get refresh token!');
