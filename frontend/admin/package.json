@@ -1,7 +1,12 @@
 {
   "name": "luxury-akka",
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+  "gzippo": "~0.2.0",
+    "coffee-script": "~1.7.1",
+    "express": "~3.4.8",
+    "express-sslify":"latest"
+  },  
   "devDependencies": {
     "grunt": "*",
     "grunt-autoprefixer": "*",
