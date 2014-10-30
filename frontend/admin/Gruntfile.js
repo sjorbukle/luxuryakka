@@ -44,6 +44,19 @@ module.exports = function(grunt) {
                     REFRESH_TOKEN_VALID_TIME: 300000
                 }
             },
+            staging: {
+                options: {
+                    dest: '<%= yeoman.app %>/src/services/env-config.js'
+                },
+                constants: {
+                    ENV: {
+                        name: 'staging',
+                        apiEndpoint: 'http://http://staging-luxury-akka-backend.herokuapp.com'
+                    },
+                    TOKEN: 'luxury-akka-token',
+                    REFRESH_TOKEN_VALID_TIME: 300000
+                }
+            },
             production: {
                 options: {
                     dest: '<%= yeoman.app %>/src/services/env-config.js'
@@ -51,7 +64,7 @@ module.exports = function(grunt) {
                 constants: {
                     ENV: {
                         name: 'production',
-                        apiEndpoint: 'http://luxury-akka-josip.herokuapp.com'
+                        apiEndpoint: '[!----- NEED TO BE ADDED -----!]'
                     },
                     TOKEN: 'luxury-akka-token',
                     REFRESH_TOKEN_VALID_TIME: 300000
@@ -471,6 +484,22 @@ module.exports = function(grunt) {
         // 'rev', // turns on this task if you want to use revision
         'usemin'
 //        'htmlmin'
+    ]);
+
+    grunt.registerTask('stg', [
+        'clean:dist',
+        'bower',
+        'ngconstant:staging',
+        'useminPrepare',
+        'concurrent:dist',
+        'autoprefixer',
+        'cssmin',
+        'requirejs',
+        'clean:afterBuild',
+        'copy:dist',
+        'requirejs-bundle',
+        'uglify',
+        'usemin'
     ]);
 
     grunt.registerTask('default', [
