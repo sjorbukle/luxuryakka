@@ -51,14 +51,17 @@ require([
         });
     }])
     .run(['$rootScope', '$location', 'TOKEN', function ($rootScope, $location, TOKEN) {
-        $rootScope.$on("$routeChangeStart", function(event, next, current) {
-            var token = localStorage.getItem(TOKEN);
-            if(!token && next.templateUrl != 'src/views/register.html') {
-                $location.path("/login");
-            } else {
-                $rootScope.userSet = token;
-            }
-        });
+            $rootScope.$on('$routeChangeStart', function (event, next) {
+                var token = localStorage.getItem(TOKEN);
+                if (!token && !(next.templateUrl == 'src/views/register.html' || next.templateUrl == 'src/views/login.html')) {
+                    event.preventDefault();
+                    $timeout(function () {
+                        $location.path('/login').replace();
+                    });
+                } else {
+                    $rootScope.userSet = token;
+                }
+            });
     }]);
 
     /*bootstrap model*/
