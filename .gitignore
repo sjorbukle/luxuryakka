@@ -13,9 +13,9 @@ dist
 /.project
 /RUNNING_PID
 /.settings
-frontend/node_modules
-frontend/app/bower_components
-frontend/.tmp
-frontend/.sass-cache
+frontend/admin/node_modules
+frontend/admin/app/bower_components
+frontend/admin/.tmp
+frontend/admin/.sass-cache
 
 

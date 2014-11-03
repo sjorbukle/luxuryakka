@@ -11,7 +11,8 @@ requirejs.config({
         envconfig: 'services/env-config',
         controllers: 'controllers/controllers',
         requirejs: '../bower_components/requirejs/require',
-        'bootstrap-sass': '../bower_components/bootstrap-sass/dist/js/bootstrap'
+        'bootstrap-sass': '../bower_components/bootstrap-sass/dist/js/bootstrap',
+        underscore: '../bower_components/underscore/underscore'
     },
     shim: {
         angular: {

@@ -44,6 +44,19 @@ module.exports = function(grunt) {
                     REFRESH_TOKEN_VALID_TIME: 300000
                 }
             },
+            staging: {
+                options: {
+                    dest: '<%= yeoman.app %>/src/services/env-config.js'
+                },
+                constants: {
+                    ENV: {
+                        name: 'staging',
+                        apiEndpoint: 'http://0.0.0.0:9000'
+                    },
+                    TOKEN: 'luxury-akka-token',
+                    REFRESH_TOKEN_VALID_TIME: 300000
+                }
+            },
             production: {
                 options: {
                     dest: '<%= yeoman.app %>/src/services/env-config.js'
@@ -51,7 +64,7 @@ module.exports = function(grunt) {
                 constants: {
                     ENV: {
                         name: 'production',
-                        apiEndpoint: 'http://luxury-akka-josip.herokuapp.com'
+                        apiEndpoint: 'https://staging-luxury-akka-backend.herokuapp.com'
                     },
                     TOKEN: 'luxury-akka-token',
                     REFRESH_TOKEN_VALID_TIME: 300000
@@ -247,8 +260,14 @@ module.exports = function(grunt) {
         },
 
         // bundle script for bower_components into app/src/main.js
-        bower: { target: { rjsConfig: '<%= yeoman.app %>/src/config.js' } },
-
+        bower: {
+            target: {
+                rjsConfig: '<%= yeoman.app %>/src/config.js',
+                options: {
+                    exclude: ['font-awesome']
+                }
+            }
+        },
         // Renames files for browser caching purposes
         rev: {
             dist: {
@@ -363,7 +382,7 @@ module.exports = function(grunt) {
                         'images/{,*/}*.webp',
                         '{,*/}*.html',
                         'styles/fonts/{,*/}*.*',
-                        'bower_components/{,*/}*.*'
+                        'bower_components/**/*.*'
                     ]
                 }]
             },
@@ -471,6 +490,22 @@ module.exports = function(grunt) {
         // 'rev', // turns on this task if you want to use revision
         'usemin'
 //        'htmlmin'
+    ]);
+
+    grunt.registerTask('stg', [
+        'clean:dist',
+        'bower',
+        'ngconstant:staging',
+        'useminPrepare',
+        'concurrent:dist',
+        'autoprefixer',
+        'cssmin',
+        'requirejs',
+        'clean:afterBuild',
+        'copy:dist',
+        'requirejs-bundle',
+        'uglify',
+        'usemin'
     ]);
 
     grunt.registerTask('default', [
