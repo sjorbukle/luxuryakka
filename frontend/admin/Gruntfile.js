@@ -260,8 +260,14 @@ module.exports = function(grunt) {
         },
 
         // bundle script for bower_components into app/src/main.js
-        bower: { target: { rjsConfig: '<%= yeoman.app %>/src/config.js' } },
-
+        bower: {
+            target: {
+                rjsConfig: '<%= yeoman.app %>/src/config.js',
+                options: {
+                    exclude: ['font-awesome']
+                }
+            }
+        },
         // Renames files for browser caching purposes
         rev: {
             dist: {

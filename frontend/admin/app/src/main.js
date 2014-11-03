@@ -7,7 +7,8 @@ require([
     'jwt_services',
     'services',
     'controllers',
-    'bootstrap-sass'
+    'bootstrap-sass',
+    'underscore'
 ], function(angular) {
     'use strict';
 
@@ -50,7 +51,7 @@ require([
             redirectTo: '/login'
         });
     }])
-    .run(['$rootScope', '$location', 'TOKEN', function ($rootScope, $location, TOKEN) {
+    .run(['$rootScope', '$location', 'TOKEN', '$timeout', function ($rootScope, $location, TOKEN, $timeout) {
             $rootScope.$on('$routeChangeStart', function (event, next) {
                 var token = localStorage.getItem(TOKEN);
                 if (!token && !(next.templateUrl == 'src/views/register.html' || next.templateUrl == 'src/views/login.html')) {
