@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 import play.api.db.DB
 import play.api.Play.current
 import scala.slick.driver.PostgresDriver.simple._
-
+import scala.slick.jdbc.StaticQuery._
 
 @Repository
 class UserRepositoryImpl() extends UserRepository
@@ -21,9 +21,15 @@ class UserRepositoryImpl() extends UserRepository
 
     db.withTransaction {
       implicit session =>
-        val userId = (UserCreateEntityMapper.query returning UserCreateEntityMapper.query.map(_.id)) += item
+        val insertQuery = sql"""
+            INSERT INTO users(first_name, last_name, username, email, password)
+            VALUES (${item.firstName}, ${item.lastName}, ${item.username}, ${item.email}, ${item.password})
+            RETURNING id
+        """
+        val idCandidate = insertQuery.as[Long].firstOption
+        Asserts.argumentIsTrue(idCandidate.isDefined)
 
-        GeneratedId(userId.toLong)
+        GeneratedId(idCandidate.get)
     }
   }
 
@@ -34,7 +40,7 @@ class UserRepositoryImpl() extends UserRepository
     db.withSession {
       implicit session =>
 
-      UserDetailsEntityMapper.query.filter(_.id === id).list.headOption
+        UserDetailsTableDescriptor.query.filter(_.id === id).list.headOption
     }
   }
 
@@ -45,7 +51,7 @@ class UserRepositoryImpl() extends UserRepository
     db.withSession {
       implicit session =>
 
-        UserDetailsEntityMapper.query.filter(_.username === username).list.headOption
+        UserDetailsTableDescriptor.query.filter(_.username === username).list.headOption
     }
   }
 
@@ -56,7 +62,7 @@ class UserRepositoryImpl() extends UserRepository
     db.withSession {
       implicit session =>
 
-        UserDetailsEntityMapper.query.filter(_.email === email).list.headOption
+        UserDetailsTableDescriptor.query.filter(_.email === email).list.headOption
     }
   }
 
@@ -65,7 +71,7 @@ class UserRepositoryImpl() extends UserRepository
     db.withSession {
       implicit session =>
 
-        UserDetailsEntityMapper.query.list
+        UserDetailsTableDescriptor.query.list
     }
   }
 }
