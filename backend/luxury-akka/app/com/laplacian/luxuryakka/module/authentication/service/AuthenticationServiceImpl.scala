@@ -1,6 +1,6 @@
 package com.laplacian.luxuryakka.module.authentication.service
 
-import com.laplacian.luxuryakka.core.utils.DateUtils
+import com.laplacian.luxuryakka.core.utils.{HashUtils, DateUtils}
 import com.laplacian.luxuryakka.module.user.service.domain.UserDomainService
 import com.laplacian.luxuryakka.core.Asserts
 import org.springframework.stereotype.Service
@@ -29,7 +29,9 @@ class AuthenticationServiceImpl @Autowired
     Asserts.argumentIsNotNull(username)
     Asserts.argumentIsNotNull(password)
 
-    this.userDomainService.tryGetByUsername(username).filter(_.password == password).map(u => createAuthenticationToken(u))
+    this.userDomainService.tryGetByUsername(username)
+      .filter(_.password == HashUtils.sha1(password))
+      .map(u => createAuthenticationToken(u))
   }
 
   override def validateToken(token: String): Boolean =

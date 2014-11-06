@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 import play.api.db.DB
 import play.api.Play.current
 import scala.slick.driver.PostgresDriver.simple._
-
+import scala.slick.jdbc.StaticQuery._
 
 @Repository
 class UserRepositoryImpl() extends UserRepository
@@ -21,9 +21,11 @@ class UserRepositoryImpl() extends UserRepository
 
     db.withTransaction {
       implicit session =>
-        val userId = (UserCreateEntityMapper.query returning UserCreateEntityMapper.query.map(_.id)) += item
 
-        GeneratedId(userId.toLong)
+        val idCandidate = UserRepositoryQuery.INSERT_QUERY(item).as[Long].firstOption
+        Asserts.argumentIsTrue(idCandidate.isDefined)
+
+        GeneratedId(idCandidate.get)
     }
   }
 
@@ -34,7 +36,7 @@ class UserRepositoryImpl() extends UserRepository
     db.withSession {
       implicit session =>
 
-      UserDetailsEntityMapper.query.filter(_.id === id).list.headOption
+        UserDetailsTableDescriptor.query.filter(_.id === id).list.headOption
     }
   }
 
@@ -45,7 +47,7 @@ class UserRepositoryImpl() extends UserRepository
     db.withSession {
       implicit session =>
 
-        UserDetailsEntityMapper.query.filter(_.username === username).list.headOption
+        UserDetailsTableDescriptor.query.filter(_.username === username).list.headOption
     }
   }
 
@@ -56,7 +58,7 @@ class UserRepositoryImpl() extends UserRepository
     db.withSession {
       implicit session =>
 
-        UserDetailsEntityMapper.query.filter(_.email === email).list.headOption
+        UserDetailsTableDescriptor.query.filter(_.email === email).list.headOption
     }
   }
 
@@ -65,7 +67,18 @@ class UserRepositoryImpl() extends UserRepository
     db.withSession {
       implicit session =>
 
-        UserDetailsEntityMapper.query.list
+        UserDetailsTableDescriptor.query.list
     }
+  }
+}
+
+private object UserRepositoryQuery
+{
+  def INSERT_QUERY(item: UserCreateEntity) = {
+    sql"""
+        INSERT INTO users(first_name, last_name, username, email, password)
+        VALUES (${item.firstName}, ${item.lastName}, ${item.username}, ${item.email}, ${item.password})
+        RETURNING id
+    """
   }
 }

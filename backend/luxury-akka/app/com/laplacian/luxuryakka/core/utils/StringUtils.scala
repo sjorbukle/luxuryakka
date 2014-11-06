@@ -536,4 +536,14 @@ object StringUtils
 
     !messages.hasErrors
   }
+
+  def canParseEnum[TEnum <: Enum[TEnum]](valueAsString: String)(implicit classManifest: Manifest[TEnum]) =
+  {
+    argumentIsNotNull(classManifest)
+
+    val messages = Messages.of
+    this.evaluateParsingEnum[TEnum](ERROR_DEFAULT_KEY, valueAsString, messages)
+
+    !messages.hasErrors
+  }
 }

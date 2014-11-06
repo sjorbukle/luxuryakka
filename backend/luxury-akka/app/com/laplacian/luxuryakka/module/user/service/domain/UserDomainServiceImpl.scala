@@ -8,44 +8,43 @@ import com.laplacian.luxuryakka.core.{GeneratedId, Asserts}
 import com.laplacian.luxuryakka.module.user.domain.{UserDetailsEntity, UserCreateEntity}
 
 @Service
-@Transactional
 class UserDomainServiceImpl @Autowired
 (
-  private val userRepository: UserRepository
+  private val entityRepository: UserRepository
 ) extends UserDomainService
 {
-  Asserts.argumentIsNotNull(userRepository)
+  Asserts.argumentIsNotNull(entityRepository)
 
   override def create(item: UserCreateEntity): GeneratedId =
   {
     Asserts.argumentIsNotNull(item)
 
-    this.userRepository.insert(item)
+    this.entityRepository.insert(item)
   }
 
   override def tryGetById(id: Long): Option[UserDetailsEntity] =
   {
     Asserts.argumentIsTrue(id > 0)
 
-    this.userRepository.findById(id)
+    this.entityRepository.findById(id)
   }
 
   override def tryGetByUsername(username: String): Option[UserDetailsEntity] =
   {
     Asserts.argumentIsNotNull(username)
 
-    this.userRepository.findByUsername(username)
+    this.entityRepository.findByUsername(username)
   }
 
   override def tryGetByEmail(email: String): Option[UserDetailsEntity] =
   {
-    Asserts.argumentIsNotNullNorEmpty(email)
+    Asserts.argumentIsNotNull(email)
 
-    this.userRepository.findByEmail(email)
+    this.entityRepository.findByEmail(email)
   }
 
   override def getAll: List[UserDetailsEntity] =
   {
-    this.userRepository.findAll
+    this.entityRepository.findAll
   }
 }

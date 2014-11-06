@@ -20,14 +20,14 @@ trait UserDomainService
   }
   def getByUsername(username: String): UserDetailsEntity =
   {
-    Asserts.argumentIsNotNullNorEmpty(username)
+    Asserts.argumentIsNotNull(username)
 
     this.tryGetByUsername(username).getOrElse(throw new RuntimeException("user with this username does not exist"))
   }
 
   def doesExistByUsername(userName: String): Boolean =
   {
-    Asserts.argumentIsNotNullNorEmpty(userName)
+    Asserts.argumentIsNotNull(userName)
 
     val itemCandidate = this.tryGetByUsername(userName)
     itemCandidate.isDefined
@@ -35,7 +35,7 @@ trait UserDomainService
 
   def doesExistByByEmail(email: String): Boolean =
   {
-    Asserts.argumentIsNotNullNorEmpty(email)
+    Asserts.argumentIsNotNull(email)
 
     val itemCandidate = this.tryGetByEmail(email)
     itemCandidate.isDefined

@@ -34,7 +34,7 @@ object ActionLogMapper
     def after       = column[JsValue]         (AFTER_COLUMN,        O.NotNull)
     def createdOn   = column[DateTime]        (CREATED_ON_COLUMN,   O.NotNull)
 
-    def user = foreignKey(UserEntityMapper.ID_COLUMN, userId, UserEntityMapper.UserDetailsEntityMapper.query)(_.id)
+    def user = foreignKey(UserEntityMapper.ID_COLUMN, userId, UserEntityMapper.UserDetailsTableDescriptor.query)(_.id)
 
     def * = (
       id.?,

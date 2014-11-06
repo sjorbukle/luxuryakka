@@ -11,10 +11,10 @@ import com.laplacian.luxuryakka.core.utils.ValidateUtils
 @Component
 class UserCreateValidator @Autowired
 (
-  private val userDomainService: UserDomainService
+  private val entityDomainService: UserDomainService
 ) extends Validator[UserCreateEntity]
 {
-  Asserts.argumentIsNotNull(userDomainService)
+  Asserts.argumentIsNotNull(entityDomainService)
 
   override def validate(item: UserCreateEntity): ValidationResult[UserCreateEntity] =
   {
@@ -76,7 +76,7 @@ class UserCreateValidator @Autowired
       localMessages
     )
 
-    val doesExistWithEmail = this.userDomainService.doesExistByByEmail(fieldValue)
+    val doesExistWithEmail = this.entityDomainService.doesExistByByEmail(fieldValue)
     ValidateUtils.isFalse(
       doesExistWithEmail,
       localMessages,
@@ -99,7 +99,7 @@ class UserCreateValidator @Autowired
 
     val fieldValue = item.username
 
-    val doesExistWithUsername = this.userDomainService.doesExistByUsername(fieldValue)
+    val doesExistWithUsername = this.entityDomainService.doesExistByUsername(fieldValue)
     ValidateUtils.isFalse(
       doesExistWithUsername,
       localMessages,
