@@ -21,12 +21,8 @@ class UserRepositoryImpl() extends UserRepository
 
     db.withTransaction {
       implicit session =>
-        val insertQuery = sql"""
-            INSERT INTO users(first_name, last_name, username, email, password)
-            VALUES (${item.firstName}, ${item.lastName}, ${item.username}, ${item.email}, ${item.password})
-            RETURNING id
-        """
-        val idCandidate = insertQuery.as[Long].firstOption
+
+        val idCandidate = UserRepositoryQuery.INSERT_QUERY(item).as[Long].firstOption
         Asserts.argumentIsTrue(idCandidate.isDefined)
 
         GeneratedId(idCandidate.get)
@@ -73,5 +69,16 @@ class UserRepositoryImpl() extends UserRepository
 
         UserDetailsTableDescriptor.query.list
     }
+  }
+}
+
+private object UserRepositoryQuery
+{
+  def INSERT_QUERY(item: UserCreateEntity) = {
+    sql"""
+        INSERT INTO users(first_name, last_name, username, email, password)
+        VALUES (${item.firstName}, ${item.lastName}, ${item.username}, ${item.email}, ${item.password})
+        RETURNING id
+    """
   }
 }

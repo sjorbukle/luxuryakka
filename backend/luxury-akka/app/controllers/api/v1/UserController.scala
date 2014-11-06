@@ -1,4 +1,4 @@
-package controllers
+package controllers.api.v1
 
 import akka.actor.ActorRef
 import com.laplacian.luxuryakka.configuration.actor.ActorFactory
@@ -6,13 +6,13 @@ import com.laplacian.luxuryakka.core.Asserts
 import com.laplacian.luxuryakka.core.response.ResponseTools
 import com.laplacian.luxuryakka.module.authentication.service.AuthenticationService
 import com.laplacian.luxuryakka.module.log.action.actor.ActionLogCreateMsg
-import com.laplacian.luxuryakka.module.log.action.domain.{ActionType, ActionDomainType, ActionLogEntity}
-import com.laplacian.luxuryakka.module.user.domain.{UserDetailsEntity, UserCreateEntity}
+import com.laplacian.luxuryakka.module.log.action.domain.{ActionDomainType, ActionLogEntity, ActionType}
+import com.laplacian.luxuryakka.module.user.domain.{UserCreateEntity, UserDetailsEntity}
 import com.laplacian.luxuryakka.module.user.service.domain.UserDomainService
 import com.laplacian.luxuryakka.module.user.validation.UserCreateValidator
 import controllers.core.SecuredController
-import org.springframework.stereotype
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

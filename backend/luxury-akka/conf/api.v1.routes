@@ -1,4 +1,4 @@
 
 # Users routes
-GET         /users/:id        @controllers.UserController.read(id: Long)
-POST        /users            @controllers.UserController.create
+GET         /users/:id        @controllers.api.v1.UserController.read(id: Long)
+POST        /users            @controllers.api.v1.UserController.create

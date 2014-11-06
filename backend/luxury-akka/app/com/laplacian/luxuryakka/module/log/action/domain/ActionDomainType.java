@@ -2,7 +2,8 @@ package com.laplacian.luxuryakka.module.log.action.domain;
 
 public enum ActionDomainType
 {
-    USER("USER");
+    USER("USER"),
+    ORGANIZATION_STRUCTURE("ORGANIZATION_STRUCTURE");
 
     private ActionDomainType(String displayName)
     {

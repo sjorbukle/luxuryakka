@@ -17,8 +17,8 @@ object OrganizationStructureMapper
 
   implicit final val organizationStructureType: ColumnType[OrganizationStructureType] = {
     PostgresDriver.MappedColumnType.base[OrganizationStructureType, Long](
-    { ost => ost.id                               },
-    { dv  => OrganizationStructureType.getById(dv)}
+      { ost => ost.id                               },
+      { dv  => OrganizationStructureType.getById(dv)}
     )
   }
 
