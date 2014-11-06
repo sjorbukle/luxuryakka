@@ -22,7 +22,8 @@ class OrganizationStructureCreateValidator @Autowired
 
     val validationMessages = Messages.of
 
-    validateName(item, validationMessages)
+    validateName    (item, validationMessages)
+    validateParentId(item, validationMessages)
 
     ValidationResult(
       validatedItem = item,

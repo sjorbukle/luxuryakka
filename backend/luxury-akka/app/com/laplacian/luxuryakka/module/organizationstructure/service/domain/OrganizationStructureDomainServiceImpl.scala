@@ -3,10 +3,11 @@ package com.laplacian.luxuryakka.module.organizationstructure.service.domain
 import com.laplacian.luxuryakka.core.{GeneratedId, Asserts}
 import com.laplacian.luxuryakka.module.organizationstructure.dao.OrganizationStructureRepository
 import com.laplacian.luxuryakka.module.organizationstructure.domain.{OrganizationStructureLookupEntity, OrganizationStructureType, OrganizationStructureDetailsEntity, OrganizationStructureCreateEntity}
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class OrganizationStructureDomainServiceImpl
+class OrganizationStructureDomainServiceImpl @Autowired
 (
   private final val entityRepository: OrganizationStructureRepository
 ) extends OrganizationStructureDomainService

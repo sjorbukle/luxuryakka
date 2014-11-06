@@ -62,14 +62,15 @@ abstract class SecuredController
     }
   }
 
-  def MutateJsonAuthenticatedAction[T: Format: Manifest](validator: Validator[T], mutateBlock: (Request[JsValue], ValidationResult[T]) => Future[Result]): Action[JsValue] = {
+  def MutateJsonAuthenticatedAction[T: Format: Manifest](validator: Validator[T])(mutateBlock: (Request[JsValue], ValidationResult[T], UserDetailsEntity) => Future[Result]): Action[JsValue] = {
     AuthenticatedAction(parse.json) {
       request =>
+        val requestUser = userFromSecuredRequest(request)
         request.body.validate[T].map {
           case item if item.getClass == manifest.runtimeClass =>
             val validationResult = validator.validate(item)
             if(validationResult.isValid) {
-              mutateBlock(request, validationResult)
+              mutateBlock(request, validationResult, requestUser)
             } else {
               Future.successful(BadRequest(validationResult.errorsRestResponse.json))
             }
@@ -82,7 +83,7 @@ abstract class SecuredController
     }
   }
 
-  implicit def userFromSecuredRequest(implicit request : Request[AnyContent]) : UserDetailsEntity =
+  implicit def userFromSecuredRequest(implicit request : Request[_]) : UserDetailsEntity =
   {
     Asserts.argumentIsNotNull(request)
 

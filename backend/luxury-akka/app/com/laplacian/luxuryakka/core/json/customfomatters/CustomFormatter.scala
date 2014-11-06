@@ -19,7 +19,7 @@ object CustomFormatter
           if (StringUtils.canParseEnum[TEnum](MessageKey("enum"), valueCandidate)) {
             JsSuccess(StringUtils.parseEnum(valueCandidate))
           } else {
-            JsError(Seq(JsPath() -> Seq(ValidationError(s"Not valid '${classManifest.runtimeClass}' value"))))
+            JsError(Seq(JsPath() -> Seq(ValidationError(s"Not valid '${classManifest.runtimeClass.getSimpleName}' value"))))
           }
         }
         case _ => JsError(Seq(JsPath() -> Seq(ValidationError("error.expected.jsstring"))))

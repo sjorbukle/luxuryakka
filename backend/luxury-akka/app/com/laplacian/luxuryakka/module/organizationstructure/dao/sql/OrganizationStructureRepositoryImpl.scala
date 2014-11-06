@@ -77,7 +77,7 @@ class OrganizationStructureRepositoryImpl extends OrganizationStructureRepositor
       implicit session =>
         OrganizationStructureDetailsTableDescriptor.query.filter(_.entityType === entityType).map(o =>
           (o.id, o.name, o.entityType)
-        ).run.map(OrganizationStructureLookupEntity.tupled).toList
+        ).run.map((OrganizationStructureLookupEntity.apply _).tupled).toList
     }
   }
 
