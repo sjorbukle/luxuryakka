@@ -13,11 +13,14 @@ case class UserDetailsEntity
   password  : String
 )
 {
+  selfReference =>
   Asserts.argumentIsNotNull(firstName)
   Asserts.argumentIsNotNull(lastName)
   Asserts.argumentIsNotNull(email)
   Asserts.argumentIsNotNull(username)
   Asserts.argumentIsNotNull(password)
+
+  lazy val withoutPassword = selfReference.copy(password = "n/a")
 }
 
 object UserDetailsEntity

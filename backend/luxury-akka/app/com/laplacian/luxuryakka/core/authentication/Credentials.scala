@@ -7,7 +7,7 @@ case class Credentials
 (
   username : String,
   password : String
-  )
+)
 {
   Asserts.argumentIsNotNull(username)
   Asserts.argumentIsNotNull(password)

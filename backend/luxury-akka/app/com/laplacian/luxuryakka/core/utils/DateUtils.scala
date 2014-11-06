@@ -5,6 +5,7 @@ import org.joda.time._
 import java.util.Date
 import org.joda.time.format.{DateTimeFormatter, DateTimeFormat}
 import com.laplacian.luxuryakka.core.Asserts._
+import java.sql.{Date => SqlDate}
 
 object DateUtils
 {
@@ -38,6 +39,20 @@ object DateUtils
 
     value.toDate
   }
+
+  def jodaDateTimeToSqlDate(value: Option[DateTime]) : Option[SqlDate] =
+  {
+    argumentIsNotNull(value)
+
+    value.map(v=>DateUtils.jodaDateTimeToSqlDate(v))
+  }
+  def jodaDateTimeToSqlDate(value: DateTime): SqlDate =
+  {
+    argumentIsNotNull(value)
+
+    new SqlDate(value.getMillis)
+  }
+
   def javaDateToJodaDateTime(value: Date): DateTime =
   {
     argumentIsNotNull(value)
