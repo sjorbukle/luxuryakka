@@ -30,9 +30,35 @@ define(['angular'], function(angular) {
                     $scope.user = response.data;
                 });
     }])
-    .controller('OrgStructureCtrl', ['$scope', 'TOKEN', 'luxuryakka', 'Helper',
-    function($scope, TOKEN, luxuryakka, Helper) {
+    .controller('OrgStructureCtrl', ['$scope', '$routeParams', 'TOKEN', 'luxuryakka', 'Helper',
+    function($scope, $routeParams, TOKEN, luxuryakka, Helper) {
+        var parentIdParam = $routeParams.parentId;
 
+        console.log(parentIdParam);
+
+        luxuryakka.getAllOrganizationStructureByParent(parentIdParam)
+        .then(function (items) {
+            $scope.items = items.data;
+        });
+
+        $scope.doesItemHaveChild = function(entityType){
+            return entityType != 'CITY';
+        };
+    }])
+    .controller('OrgStructureFirstCallCtrl', ['$scope', '$routeParams', 'TOKEN', 'luxuryakka', 'Helper',
+    function($scope, $routeParams, TOKEN, luxuryakka, Helper) {
+        var parentIdParam = $routeParams.parentId;
+
+        console.log(parentIdParam);
+
+        luxuryakka.getAllOrganizationStructureParentLess()
+        .then(function (items) {
+            $scope.items = items.data;
+        });
+
+        $scope.doesItemHaveChild = function(entityType){
+            return entityType != 'CITY';
+        };
     }])
     .controller('RegisterCtrl', ['$scope', 'luxuryakka', '$location',
         function($scope, luxuryakka, $location) {
