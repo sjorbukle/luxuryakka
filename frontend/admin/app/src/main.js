@@ -40,6 +40,10 @@ require([
         })
         .when('/administration/organization-structure', {
             templateUrl: 'src/views/organization-structure.html',
+            controller: 'OrgStructureFirstCallCtrl'
+        })
+        .when('/administration/organization-structure/:parentId', {
+            templateUrl: 'src/views/organization-structure.html',
             controller: 'OrgStructureCtrl'
         })
         .when('/administration/general-settings', {

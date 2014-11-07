@@ -95,6 +95,13 @@ class OrganizationStructureController @Autowired
       }
   }
 
+  def allParentLess = AuthenticatedAction {
+    request =>
+      val result = this.organizationStructureDomainService.getAllByType(OrganizationStructureType.COUNTRY)
+
+      Future(Ok(ResponseTools.data(result).json))
+  }
+
   def allByParent(parentId: Long) = AuthenticatedAction {
     request =>
       val parentCandidate = this.organizationStructureDomainService.tryGetById(parentId)
