@@ -35,6 +35,16 @@ require([
             templateUrl: 'src/views/dashboard.html',
             controller: 'MainCtrl'
         })
+        .when('/administration', {
+            templateUrl: 'src/views/administration.html'
+        })
+        .when('/administration/organization-structure', {
+            templateUrl: 'src/views/organization-structure.html',
+            controller: 'OrgStructureCtrl'
+        })
+        .when('/administration/general-settings', {
+            templateUrl: 'src/views/general-settings.html'
+        })
         .when('/register', {
             templateUrl: 'src/views/register.html',
             controller: 'RegisterCtrl'

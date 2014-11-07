@@ -22,13 +22,17 @@ define(['angular'], function(angular) {
         });
     }])
     .controller('ProfileCtrl', ['$scope', 'TOKEN', 'luxuryakka', 'Helper',
+        function($scope, TOKEN, luxuryakka, Helper) {
+            var token = localStorage.getItem(TOKEN);
+            var userID = Helper.deserializeJWT(token).userId;
+            luxuryakka.getUserById(parseInt(userID))
+                .then(function (response) {
+                    $scope.user = response.data;
+                });
+    }])
+    .controller('OrgStructureCtrl', ['$scope', 'TOKEN', 'luxuryakka', 'Helper',
     function($scope, TOKEN, luxuryakka, Helper) {
-        var token = localStorage.getItem(TOKEN);
-        var userID = Helper.deserializeJWT(token).userId;
-        luxuryakka.getUserById(parseInt(userID))
-            .then(function (response) {
-                $scope.user = response.data;
-            });
+
     }])
     .controller('RegisterCtrl', ['$scope', 'luxuryakka', '$location',
         function($scope, luxuryakka, $location) {
