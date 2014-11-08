@@ -32,8 +32,7 @@ require([
             controller: 'ProfileCtrl'
         })
         .when('/dashboard', {
-            templateUrl: 'src/views/dashboard.html',
-            controller: 'MainCtrl'
+            templateUrl: 'src/views/dashboard.html'
         })
         .when('/administration', {
             templateUrl: 'src/views/administration.html'
@@ -74,7 +73,9 @@ require([
                         $location.path('/login').replace();
                     });
                 } else {
-                    $rootScope.userSet = token;
+                    if (!$rootScope.hasOwnProperty('userSet')) {
+                        $rootScope.userSet = token;
+                    }
                 }
             });
     }]);

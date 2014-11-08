@@ -47,9 +47,6 @@ define(['angular'], function(angular) {
     }])
     .controller('OrgStructureFirstCallCtrl', ['$scope', '$routeParams', 'TOKEN', 'luxuryakka', 'Helper',
     function($scope, $routeParams, TOKEN, luxuryakka, Helper) {
-        var parentIdParam = $routeParams.parentId;
-
-        console.log(parentIdParam);
 
         luxuryakka.getAllOrganizationStructureParentLess()
         .then(function (items) {
