@@ -2,13 +2,15 @@ require([
     'angular',
     'jquery',
     'angular-resource',
+    'angular-sanitize',
     'angular-route',
     'envconfig',
     'jwt_services',
     'services',
     'controllers',
     'bootstrap-sass',
-    'underscore'
+    'underscore',
+    'textAngular'
 ], function(angular) {
     'use strict';
 
@@ -20,10 +22,12 @@ require([
     angular.module('webApp', [
         'ngRoute',
         'ngResource',
+        'ngSanitize',
         'app.controllers',
         'envconfig',
         'com.laplacian.luxuryakka.services',
-        'com.laplacian.luxuryakka.jwt_services'
+        'com.laplacian.luxuryakka.jwt_services',
+        'textAngular'
     ])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
