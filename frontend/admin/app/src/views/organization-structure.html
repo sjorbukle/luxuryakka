@@ -13,38 +13,41 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
             <div class="box">
                 <div class="box-content">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <td class="col-md-1">#</td>
-                                    <td class="col-md-6">Name</td>
-                                    <td class="col-md-6">Type</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr class="status-pending" ng-repeat="item in items" ng-cloak>
-                                <td>{{ $index + 1 }}</td>
-
-                                <td ng-if="doesItemHaveChild(item.entityType)"><a href="#/administration/organization-structure/{{ item.id }}">{{ item.name }}</a></td>
-
-                                <td ng-if="!doesItemHaveChild(item.entityType)"><a href="">{{ item.name }}</a></td>
-
-                                <td><p>{{ item.entityType }}</p></td>
+                    <a href="#/administration/organization-structure/create" class="btn btn-sm btn-green" >
+                        Create <i class="icon-plus-sign"></i>
+                    </a>
+                    <table class="table table-striped" ng-show="items.length > 0">
+                        <thead>
+                            <tr>
+                                <td class="col-md-1">#</td>
+                                <td class="col-md-6">Name</td>
+                                <td class="col-md-6">Type</td>
                             </tr>
-                            </tbody>
-                        </table>
+                        </thead>
+                        <tbody>
+                        <tr class="status-pending" ng-repeat="item in items" ng-cloak>
+                            <td>{{ $index + 1 }}</td>
+
+                            <td ng-if="doesItemHaveChild(item.entityType)"><a href="#/administration/organization-structure/{{ item.id }}">{{ item.name }}</a></td>
+
+                            <td ng-if="!doesItemHaveChild(item.entityType)"><a href="">{{ item.name }}</a></td>
+
+                            <td><p>{{ item.entityType }}</p></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
-            <div class="box">
-                <div class="box-content">
-                    <div text-angular ng-model="htmlVariable"></div>
-                </div>
-            </div>
-        </div>
+        <!--<div class="col-md-8">-->
+            <!--<div class="box">-->
+                <!--<div class="box-content">-->
+                    <!--<div text-angular ng-model="htmlVariable"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </div>

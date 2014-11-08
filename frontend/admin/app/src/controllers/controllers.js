@@ -57,6 +57,10 @@ define(['angular'], function(angular) {
             return entityType != 'CITY';
         };
     }])
+    .controller('OrgStructureCreateCtrl', ['$scope', '$routeParams', 'TOKEN', 'luxuryakka', 'Helper',
+        function($scope, $routeParams, TOKEN, luxuryakka, Helper) {
+
+    }])
     .controller('RegisterCtrl', ['$scope', 'luxuryakka', '$location',
         function($scope, luxuryakka, $location) {
             $scope.user = {};

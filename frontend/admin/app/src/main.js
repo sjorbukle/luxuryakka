@@ -45,6 +45,10 @@ require([
             templateUrl: 'src/views/organization-structure.html',
             controller: 'OrgStructureFirstCallCtrl'
         })
+        .when('/administration/organization-structure/create', {
+            templateUrl: 'src/views/organization-structure-create.html',
+            controller: 'OrgStructureCreateCtrl'
+        })
         .when('/administration/organization-structure/:parentId', {
             templateUrl: 'src/views/organization-structure.html',
             controller: 'OrgStructureCtrl'
@@ -82,6 +86,17 @@ require([
                     }
                 }
             });
+
+
+            var history = [];
+            $rootScope.$on('$routeChangeSuccess', function() {
+                history.push($location.$$path);
+            });
+
+            $rootScope.back = function () {
+                var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
+                $location.path(prevUrl);
+            };
     }]);
 
     /*bootstrap model*/
