@@ -10,6 +10,7 @@ case class OrganizationStructureDetailsEntity
   name              : String,
   entityType        : OrganizationStructureType,
   parentId          : Option[Long],
+  treePath          : String,
   description       : String,
   shortDescription  : String
 )
@@ -17,6 +18,7 @@ case class OrganizationStructureDetailsEntity
   Asserts.argumentIsNotNull(name)
   Asserts.argumentIsNotNull(entityType)
   Asserts.argumentIsNotNull(parentId)
+  Asserts.argumentIsNotNull(treePath)
   Asserts.argumentIsNotNull(description)
   Asserts.argumentIsNotNull(shortDescription)
 }
