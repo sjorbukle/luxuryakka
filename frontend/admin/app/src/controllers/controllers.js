@@ -47,9 +47,6 @@ define(['angular'], function(angular) {
     }])
     .controller('OrgStructureFirstCallCtrl', ['$scope', '$routeParams', 'TOKEN', 'luxuryakka', 'Helper',
     function($scope, $routeParams, TOKEN, luxuryakka, Helper) {
-        var parentIdParam = $routeParams.parentId;
-
-        console.log(parentIdParam);
 
         luxuryakka.getAllOrganizationStructureParentLess()
         .then(function (items) {
@@ -59,6 +56,13 @@ define(['angular'], function(angular) {
         $scope.doesItemHaveChild = function(entityType){
             return entityType != 'CITY';
         };
+    }])
+    .controller('OrgStructureCreateCtrl', ['$scope', '$routeParams', 'TOKEN', 'luxuryakka', 'Helper',
+        function($scope, $routeParams, TOKEN, luxuryakka, Helper) {
+            $scope.entityType = '';
+
+            $scope.entityTypes = [{name: 'COUNTRY'}, {name: 'REGION'}, {name: 'RIVIERA'}, {name: 'CITY'}];
+
     }])
     .controller('RegisterCtrl', ['$scope', 'luxuryakka', '$location',
         function($scope, luxuryakka, $location) {

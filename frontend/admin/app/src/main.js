@@ -2,13 +2,15 @@ require([
     'angular',
     'jquery',
     'angular-resource',
+    'angular-sanitize',
     'angular-route',
     'envconfig',
     'jwt_services',
     'services',
     'controllers',
     'bootstrap-sass',
-    'underscore'
+    'underscore',
+    'textAngular'
 ], function(angular) {
     'use strict';
 
@@ -20,10 +22,12 @@ require([
     angular.module('webApp', [
         'ngRoute',
         'ngResource',
+        'ngSanitize',
         'app.controllers',
         'envconfig',
         'com.laplacian.luxuryakka.services',
-        'com.laplacian.luxuryakka.jwt_services'
+        'com.laplacian.luxuryakka.jwt_services',
+        'textAngular'
     ])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -32,8 +36,7 @@ require([
             controller: 'ProfileCtrl'
         })
         .when('/dashboard', {
-            templateUrl: 'src/views/dashboard.html',
-            controller: 'MainCtrl'
+            templateUrl: 'src/views/dashboard.html'
         })
         .when('/administration', {
             templateUrl: 'src/views/administration.html'
@@ -41,6 +44,10 @@ require([
         .when('/administration/organization-structure', {
             templateUrl: 'src/views/organization-structure.html',
             controller: 'OrgStructureFirstCallCtrl'
+        })
+        .when('/administration/organization-structure/create', {
+            templateUrl: 'src/views/organization-structure-create.html',
+            controller: 'OrgStructureCreateCtrl'
         })
         .when('/administration/organization-structure/:parentId', {
             templateUrl: 'src/views/organization-structure.html',
@@ -74,9 +81,22 @@ require([
                         $location.path('/login').replace();
                     });
                 } else {
-                    $rootScope.userSet = token;
+                    if (!$rootScope.hasOwnProperty('userSet')) {
+                        $rootScope.userSet = token;
+                    }
                 }
             });
+
+
+            var history = [];
+            $rootScope.$on('$routeChangeSuccess', function() {
+                history.push($location.$$path);
+            });
+
+            $rootScope.back = function () {
+                var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
+                $location.path(prevUrl);
+            };
     }]);
 
     /*bootstrap model*/
