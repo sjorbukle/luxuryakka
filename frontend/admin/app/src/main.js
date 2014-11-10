@@ -10,6 +10,7 @@ require([
     'controllers',
     'bootstrap-sass',
     'underscore',
+    'angular-ui-select',
     'textAngular'
 ], function(angular) {
     'use strict';
@@ -25,6 +26,7 @@ require([
         'ngSanitize',
         'app.controllers',
         'envconfig',
+        'ui.select',
         'com.laplacian.luxuryakka.services',
         'com.laplacian.luxuryakka.jwt_services',
         'textAngular'

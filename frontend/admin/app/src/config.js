@@ -18,7 +18,8 @@ requirejs.config({
             '//cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular.min'
         ],
         'bootstrap-sass': '../bower_components/bootstrap-sass/dist/js/bootstrap',
-        underscore: '../bower_components/underscore/underscore'
+        underscore: '../bower_components/underscore/underscore',
+        'angular-ui-select': '../bower_components/angular-ui-select/dist/select'
     },
     shim: {
         angular: {
@@ -39,15 +40,20 @@ requirejs.config({
         'angular-sanitize': [
             'angular'
         ],
-        'bootstrap-sass': {
+        'angular-ui-select': {
             deps: [
-                'jquery'
+                'angular'
             ]
         },
         textAngular: [
             'angular',
             'angular-sanitize'
-        ]
+        ],
+        'bootstrap-sass': {
+            deps: [
+                'jquery'
+            ]
+        }
     },
     packages: [
 

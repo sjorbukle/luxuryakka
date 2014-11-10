@@ -264,7 +264,7 @@ module.exports = function(grunt) {
             target: {
                 rjsConfig: '<%= yeoman.app %>/src/config.js',
                 options: {
-                    exclude: ['font-awesome']
+                    exclude: ['font-awesome','ui-bootstrap']
                 }
             }
         },

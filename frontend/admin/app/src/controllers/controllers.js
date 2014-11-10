@@ -60,6 +60,8 @@ define(['angular'], function(angular) {
     .controller('OrgStructureCreateCtrl', ['$scope', '$routeParams', 'TOKEN', 'luxuryakka', 'Helper',
         function($scope, $routeParams, TOKEN, luxuryakka, Helper) {
             $scope.entityType = '';
+            $scope.selectedParent = {};
+            $scope.parents = [{name: "PERO"}, {name: "SIME"}];
 
             $scope.entityTypes = [{name: 'COUNTRY'}, {name: 'REGION'}, {name: 'RIVIERA'}, {name: 'CITY'}];
 
