@@ -5,7 +5,8 @@ define(['angular'], function(angular) {
         $scope.pageTitleValue = 'Luxury Akka';
 
         $scope.isActive = function(route) {
-            return route === $location.path();
+            var location = $location.path();
+            return location.substring(0, route.length) === route;
         };
 
         $scope.isLoggedIn = false;
@@ -64,6 +65,8 @@ define(['angular'], function(angular) {
             $scope.parents = [{name: "PERO"}, {name: "SIME"}];
 
             $scope.entityTypes = [{name: 'COUNTRY'}, {name: 'REGION'}, {name: 'RIVIERA'}, {name: 'CITY'}];
+
+            $scope.detailDescription = '';
 
     }])
     .controller('RegisterCtrl', ['$scope', 'luxuryakka', '$location',

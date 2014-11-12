@@ -74,7 +74,7 @@ require([
             redirectTo: '/login'
         });
     }])
-    .run(['$rootScope', '$location', 'TOKEN', '$timeout', function ($rootScope, $location, TOKEN, $timeout) {
+    .run(['$rootScope', '$location', 'TOKEN', '$timeout', '$templateCache', function ($rootScope, $location, TOKEN, $timeout, $templateCache) {
             $rootScope.$on('$routeChangeStart', function (event, next) {
                 var token = localStorage.getItem(TOKEN);
                 if (!token && !(next.templateUrl == 'src/views/register.html' || next.templateUrl == 'src/views/login.html')) {
@@ -99,7 +99,12 @@ require([
                 var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
                 $location.path(prevUrl);
             };
-    }]);
+
+            console.log( $templateCache.get('select2/select.tpl.html') );
+
+            $('#textAngular-editableFix-010203040506070809').hide(); // FIXME: remove this when lib gets updated. It prevents white pixel bug.
+
+        }]);
 
     /*bootstrap model*/
     angular.bootstrap($html, ['webApp']);

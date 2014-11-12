@@ -35,6 +35,7 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-2">Parent:</label>
                                 <div class="col-lg-10">
+
                                     <ui-select ng-model="selectedParent.selected" theme="select2" on-select="someFunction($item, $model)" ng-disabled="disabled">
                                         <ui-select-match placeholder="Select a parent in the list or search his name/age...">
                                             {{$select.selected.name}}
@@ -46,6 +47,7 @@
                                             </small>
                                         </ui-select-choices>
                                     </ui-select>
+
                                 </div>
                             </div>
 
@@ -59,11 +61,10 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-2">Description:</label>
                                 <div class="col-lg-10">
-                                    <div text-angular ng-model="htmlVariable"></div>
+                                    <div text-angular ng-model="detailDescription"></div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-actions">
                             <button type="submit" class="btn btn-blue">Create</button>
                             <button ng-click='back()' type="button" class="btn btn-default">Cancel</button>
