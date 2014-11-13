@@ -2,13 +2,27 @@ require([
     'angular',
     'jquery',
     'angular-resource',
+    'angular-sanitize',
     'angular-route',
     'envconfig',
-    'jwt_services',
-    'services',
-    'controllers',
+
+    'authentication',
+    'authenticationFactory',
+
+    'user',
+    'userFactory',
+    'userController',
+
+    'administration',
+    'organizationStructure',
+    'organizationStructureFactory',
+    'organizationStructureController',
+    'generalSettings',
+
     'bootstrap-sass',
-    'underscore'
+    'underscore',
+    'angular-ui-select',
+    'textAngular'
 ], function(angular) {
     'use strict';
 
@@ -17,44 +31,80 @@ require([
         /*smart works go here*/
         var $html = angular.element('html');
 
-    angular.module('webApp', [
+//  Main appModule instance
+    var appModule = angular.module('webApp', [
         'ngRoute',
         'ngResource',
-        'app.controllers',
+        'ngSanitize',
+
         'envconfig',
-        'com.laplacian.luxuryakka.services',
-        'com.laplacian.luxuryakka.jwt_services'
-    ])
-    .config(['$routeProvider', function ($routeProvider) {
+        'ui.select',
+
+        'luxuryakka.authenticationBackend',
+        'luxuryakka.user',
+        'luxuryakka.administration',
+
+        'textAngular'
+    ]);
+
+//  MainCtrl definition
+    appModule.controller('MainCtrl', ['$scope', 'Helper', '$location', 'userService','TOKEN','$rootScope',
+        function($scope, Helper, $location, userService, TOKEN, $rootScope) {
+            $scope.pageTitleValue = 'Luxury Akka';
+
+            $scope.isActive = function(route) {
+                var location = $location.path();
+                return location.substring(0, route.length) === route;
+            };
+
+            $scope.isLoggedIn = false;
+
+            $rootScope.$watch('userSet', function( token ){
+                if(token){
+                    var userID = Helper.deserializeJWT(token).userId;
+                    userService.getUserById(parseInt(userID))
+                        .then(function (userData) {
+                            $scope.isLoggedIn = true;
+                            $scope.userFullName = userData.data.firstName + ' ' + userData.data.lastName;
+                        });
+                }
+            });
+        }]);
+
+//  App routes configuration
+    appModule.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
         .when('/profile', {
-            templateUrl: 'src/views/profile.html',
+            templateUrl: 'src/user/views/profile.html',
             controller: 'ProfileCtrl'
         })
         .when('/dashboard', {
-            templateUrl: 'src/views/dashboard.html',
-            controller: 'MainCtrl'
+            templateUrl: 'src/dashboard.html'
         })
         .when('/administration', {
-            templateUrl: 'src/views/administration.html'
+            templateUrl: 'src/administration/views/administration.html'
         })
         .when('/administration/organization-structure', {
-            templateUrl: 'src/views/organization-structure.html',
+            templateUrl: 'src/administration/organization-structure/views/view.html',
             controller: 'OrgStructureFirstCallCtrl'
         })
+        .when('/administration/organization-structure/create', {
+            templateUrl: 'src/administration/organization-structure/views/create.html',
+            controller: 'OrgStructureCreateCtrl'
+        })
         .when('/administration/organization-structure/:parentId', {
-            templateUrl: 'src/views/organization-structure.html',
+            templateUrl: 'src/administration/organization-structure/views/view.html',
             controller: 'OrgStructureCtrl'
         })
         .when('/administration/general-settings', {
-            templateUrl: 'src/views/general-settings.html'
+            templateUrl: 'src/administration/general-settings/views/view.html'
         })
         .when('/register', {
-            templateUrl: 'src/views/register.html',
+            templateUrl: 'src/user/views/register.html',
             controller: 'RegisterCtrl'
         })
         .when('/login', {
-            templateUrl: 'src/views/login.html',
+            templateUrl: 'src/user/views/login.html',
             controller: 'LoginCtrl'
         })
         .when('/logout', {
@@ -65,19 +115,37 @@ require([
             redirectTo: '/login'
         });
     }])
-    .run(['$rootScope', '$location', 'TOKEN', '$timeout', function ($rootScope, $location, TOKEN, $timeout) {
+    .run(['$rootScope', '$location', 'TOKEN', '$timeout', '$templateCache', function ($rootScope, $location, TOKEN, $timeout, $templateCache) {
             $rootScope.$on('$routeChangeStart', function (event, next) {
                 var token = localStorage.getItem(TOKEN);
-                if (!token && !(next.templateUrl == 'src/views/register.html' || next.templateUrl == 'src/views/login.html')) {
+                if (!token && !(next.originalPath == '/register' || next.originalPath == '/login')) {
                     event.preventDefault();
                     $timeout(function () {
                         $location.path('/login').replace();
                     });
                 } else {
-                    $rootScope.userSet = token;
+                    if (!$rootScope.hasOwnProperty('userSet')) {
+                        $rootScope.userSet = token;
+                    }
                 }
             });
-    }]);
+
+
+            var history = [];
+            $rootScope.$on('$routeChangeSuccess', function() {
+                history.push($location.$$path);
+            });
+
+            $rootScope.back = function () {
+                var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
+                $location.path(prevUrl);
+            };
+
+            console.log( $templateCache.get('select2/select.tpl.html') );
+
+            $('#textAngular-editableFix-010203040506070809').hide(); // FIXME: remove this when lib gets updated. It prevents white pixel bug.
+
+        }]);
 
     /*bootstrap model*/
     angular.bootstrap($html, ['webApp']);

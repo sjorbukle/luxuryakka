@@ -1,0 +1,77 @@
+<div class="container">
+    <div class="row">
+        <div class="area-top clearfix">
+            <div class="pull-left header">
+                <h3 class="title">
+                    <i class="icon-sitemap"></i>
+                    Organization Structure - Create new
+                </h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-content">
+                    <form class="form-horizontal fill-up">
+                        <div class="padded">
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Name:</label>
+                                <div class="col-lg-10">
+                                    <input name="name" type="text" class="validate[required]" data-prompt-position="topLeft" id="form-validation-field-0">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Type:</label>
+                                <div class="col-lg-10">
+                                    <select name="entityType" class="form-control input-sm" ng-model="entityType" ng-options="item.name for item in entityTypes"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Parent:</label>
+                                <div class="col-lg-10">
+
+                                    <ui-select ng-model="selectedParent.selected" theme="select2" on-select="someFunction($item, $model)" ng-disabled="disabled">
+                                        <ui-select-match placeholder="Select a parent in the list or search his name/age...">
+                                            {{$select.selected.name}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="parent.name as parent in parents">
+                                            <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                            <small>
+                                                name: {{parent.name}}
+                                            </small>
+                                        </ui-select-choices>
+                                    </ui-select>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Short Description:</label>
+                                <div class="col-lg-10">
+                                    <textarea rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-2">Description:</label>
+                                <div class="col-lg-10">
+                                    <div text-angular ng-model="detailDescription"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-blue">Create</button>
+                            <button ng-click='back()' type="button" class="btn btn-default">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

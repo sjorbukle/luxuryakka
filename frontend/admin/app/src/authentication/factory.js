@@ -1,9 +1,38 @@
 define(['angular'], function(angular) {
-    angular.module('com.laplacian.luxuryakka.jwt_services', [
-        'envconfig'
-    ])
-        .factory('Helper',
-        function () {
+    angular.module('luxuryakka.authenticationBackend')
+        .factory('authenticationService', ['$q', '$http', 'TokenInspector', 'ENV',
+            function ($q, $http, TokenInspector, ENV) {
+                var baseBackendUrl = ENV.apiEndpoint;
+                return {
+                    authenticate: function (username, password) {
+                        var payload = {
+                            username: username,
+                            password: password
+                        };
+                        return $http.post(baseBackendUrl + '/api/authenticate', angular.toJson(payload))
+                            .error(function (reason, code) {
+                                console.log('Error: authenticate ' + JSON.stringify(reason) + ' Code:' + code);
+                                return reason;
+                            })
+                            .then(function (res) {
+                                return res.data;
+                            });
+                    },
+                    refreshToken: function (token) {
+                        var payload = {
+                            token: token
+                        };
+                        return $http.post(baseBackendUrl + '/api/refresh-token', angular.toJson(payload))
+                            .error(function (reason, code) {
+                                console.log('Error: refreshToken ' + JSON.stringify(reason) + ' Code:' + code);
+                            })
+                            .then(function (res) {
+                                return res.data;
+                            });
+                    }
+                }
+            }]
+        ).factory('Helper', function () {
             return {
                 decodeBase64: function (data) {
                     var b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
@@ -86,3 +115,5 @@ define(['angular'], function(angular) {
                 }
             }]);
 });
+
+

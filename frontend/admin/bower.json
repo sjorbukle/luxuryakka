@@ -6,6 +6,8 @@
     "angular-resource": "*",
     "angular-route": "*",
     "angular-mocks": "*",
+    "ui-bootstrap": "*",
+    "angular-ui-select": "*",
     "jquery": "~2.1.1",
     "underscore": "1.7.0",
     "bootstrap-sass": "latest",
