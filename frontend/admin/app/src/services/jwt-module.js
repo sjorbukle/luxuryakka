@@ -1,7 +1,5 @@
 define(['angular'], function(angular) {
-    angular.module('com.laplacian.luxuryakka.jwt_services', [
-        'envconfig'
-    ])
+    angular.module('luxuryakka.service.jwtModule', ['envconfig'])
         .factory('Helper',
         function () {
             return {

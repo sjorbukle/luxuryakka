@@ -1,7 +1,7 @@
 define(['angular'], function(angular) {
-    angular.module('app.controllers', [])
-    .controller('MainCtrl', ['$scope', 'Helper', '$location', 'luxuryakka','TOKEN','$rootScope',
-        function($scope, Helper, $location, luxuryakka, TOKEN, $rootScope) {
+    angular.module('luxuryakka.controller.coreModule', [])
+    .controller('MainCtrl', ['$scope', 'Helper', '$location', 'coreService','TOKEN','$rootScope',
+        function($scope, Helper, $location, coreService, TOKEN, $rootScope) {
         $scope.pageTitleValue = 'Luxury Akka';
 
         $scope.isActive = function(route) {
@@ -14,7 +14,7 @@ define(['angular'], function(angular) {
         $rootScope.$watch('userSet', function( token ){
             if(token){
                 var userID = Helper.deserializeJWT(token).userId;
-                luxuryakka.getUserById(parseInt(userID))
+                coreService.getUserById(parseInt(userID))
                     .then(function (userData) {
                         $scope.isLoggedIn = true;
                         $scope.userFullName = userData.data.firstName + ' ' + userData.data.lastName;
@@ -22,59 +22,21 @@ define(['angular'], function(angular) {
             }
         });
     }])
-    .controller('ProfileCtrl', ['$scope', 'TOKEN', 'luxuryakka', 'Helper',
-        function($scope, TOKEN, luxuryakka, Helper) {
+    .controller('ProfileCtrl', ['$scope', 'TOKEN', 'coreService', 'Helper',
+        function($scope, TOKEN, coreService, Helper) {
             var token = localStorage.getItem(TOKEN);
             var userID = Helper.deserializeJWT(token).userId;
-            luxuryakka.getUserById(parseInt(userID))
+            coreService.getUserById(parseInt(userID))
                 .then(function (response) {
                     $scope.user = response.data;
                 });
     }])
-    .controller('OrgStructureCtrl', ['$scope', '$routeParams', 'TOKEN', 'luxuryakka', 'Helper',
-    function($scope, $routeParams, TOKEN, luxuryakka, Helper) {
-        var parentIdParam = $routeParams.parentId;
-
-        console.log(parentIdParam);
-
-        luxuryakka.getAllOrganizationStructureByParent(parentIdParam)
-        .then(function (items) {
-            $scope.items = items.data;
-        });
-
-        $scope.doesItemHaveChild = function(entityType){
-            return entityType != 'CITY';
-        };
-    }])
-    .controller('OrgStructureFirstCallCtrl', ['$scope', '$routeParams', 'TOKEN', 'luxuryakka', 'Helper',
-    function($scope, $routeParams, TOKEN, luxuryakka, Helper) {
-
-        luxuryakka.getAllOrganizationStructureParentLess()
-        .then(function (items) {
-            $scope.items = items.data;
-        });
-
-        $scope.doesItemHaveChild = function(entityType){
-            return entityType != 'CITY';
-        };
-    }])
-    .controller('OrgStructureCreateCtrl', ['$scope', '$routeParams', 'TOKEN', 'luxuryakka', 'Helper',
-        function($scope, $routeParams, TOKEN, luxuryakka, Helper) {
-            $scope.entityType = '';
-            $scope.selectedParent = {};
-            $scope.parents = [{name: "PERO"}, {name: "SIME"}];
-
-            $scope.entityTypes = [{name: 'COUNTRY'}, {name: 'REGION'}, {name: 'RIVIERA'}, {name: 'CITY'}];
-
-            $scope.detailDescription = '';
-
-    }])
-    .controller('RegisterCtrl', ['$scope', 'luxuryakka', '$location',
-        function($scope, luxuryakka, $location) {
+    .controller('RegisterCtrl', ['$scope', 'coreService', '$location',
+        function($scope, coreService, $location) {
             $scope.user = {};
 
             $scope.registerAccount = function () {
-                luxuryakka.registerAccount($scope.user)
+                coreService.registerAccount($scope.user)
                     .then(function () {
                         $location.path('/login');
                     }, function (err) {
@@ -82,8 +44,8 @@ define(['angular'], function(angular) {
                     });
             };
         }])
-    .controller('LoginCtrl', ['$scope','luxuryakka', 'TOKEN','$location','$rootScope',
-        function($scope, luxuryakka, TOKEN, $location, $rootScope) {
+    .controller('LoginCtrl', ['$scope','coreService', 'TOKEN','$location','$rootScope',
+        function($scope, coreService, TOKEN, $location, $rootScope) {
 
             $scope.formValidation = false;
             $scope.errorMsg = null;
@@ -98,7 +60,7 @@ define(['angular'], function(angular) {
 
             function makeLoginRequest(user, pass) {
                 $scope.requestSend = true;
-                luxuryakka.authenticate(user, pass)
+                coreService.authenticate(user, pass)
                     .then(function (response) {
                         $scope.requestSend = false;
                         console.log(JSON.stringify(response));

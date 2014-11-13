@@ -1,9 +1,6 @@
 define(['angular'], function(angular) {
-    angular.module('com.laplacian.luxuryakka.services', [
-        'com.laplacian.luxuryakka.jwt_services',
-        'envconfig'
-    ])
-        .factory('luxuryakka', ['$q', '$http', 'TokenInspector', 'ENV',
+    angular.module('luxuryakka.service.coreModule', [ 'luxuryakka.service.jwtModule', 'envconfig' ])
+        .factory('coreService', ['$q', '$http', 'TokenInspector', 'ENV',
             function ($q, $http, TokenInspector, ENV) {
                 var baseBackendUrl = ENV.apiEndpoint;
                 return {
@@ -52,40 +49,6 @@ define(['angular'], function(angular) {
                                 })
                                     .error(function (reason, code) {
                                         console.log('Error: getUserById' + JSON.stringify(reason) + ' Code:' + code);
-                                        return reason;
-                                    })
-                                    .then(function (res) {
-                                        return res.data;
-                                    });
-                            });
-                    },
-                    getAllOrganizationStructureByParent: function (parentId) {
-                        return TokenInspector.getOrRefreshToken()
-                            .then(function (token) {
-                                return $http({
-                                    url: baseBackendUrl + '/api/v1/organization-structure/all/parent/' + parentId,
-                                    method: 'GET',
-                                    headers: { Authorization: token }
-                                })
-                                    .error(function (reason, code) {
-                                        console.log('Error: getOrganizationStructureByParent' + JSON.stringify(reason) + ' Code:' + code);
-                                        return reason;
-                                    })
-                                    .then(function (res) {
-                                        return res.data;
-                                    });
-                            });
-                    },
-                    getAllOrganizationStructureParentLess: function () {
-                        return TokenInspector.getOrRefreshToken()
-                            .then(function (token) {
-                                return $http({
-                                    url: baseBackendUrl + '/api/v1/organization-structure/all/parent',
-                                    method: 'GET',
-                                    headers: { Authorization: token }
-                                })
-                                    .error(function (reason, code) {
-                                        console.log('Error: getAllOrganizationStructureParentLess' + JSON.stringify(reason) + ' Code:' + code);
                                         return reason;
                                     })
                                     .then(function (res) {

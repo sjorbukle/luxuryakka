@@ -9,10 +9,12 @@ requirejs.config({
             '//ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular-sanitize'
         ],
         jquery: '../bower_components/jquery/dist/jquery',
-        jwt_services: 'services/jwt_services',
-        services: 'services/services',
         envconfig: 'services/env-config',
-        controllers: 'controllers/controllers',
+        jwtModule: 'services/jwt-module',
+        coreServiceModule: 'services/core-module',
+        orgStructureServiceModule: 'services/organizationstructure/org-structure-module',
+        coreControllerModule: 'controllers/core-module',
+        orgStructureControllerModule: 'controllers/organizationstructure/org-structure-module',
         requirejs: '../bower_components/requirejs/require',
         textAngular: [
             '//cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular.min'

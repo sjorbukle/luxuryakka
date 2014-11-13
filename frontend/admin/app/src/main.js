@@ -5,9 +5,14 @@ require([
     'angular-sanitize',
     'angular-route',
     'envconfig',
-    'jwt_services',
-    'services',
-    'controllers',
+
+    'jwtModule',
+    'coreServiceModule',
+    'orgStructureServiceModule',
+
+    'coreControllerModule',
+    'orgStructureControllerModule',
+
     'bootstrap-sass',
     'underscore',
     'angular-ui-select',
@@ -24,11 +29,17 @@ require([
         'ngRoute',
         'ngResource',
         'ngSanitize',
-        'app.controllers',
+
+        'luxuryakka.controller.coreModule',
+        'luxuryakka.controller.orgStructureModule',
+
         'envconfig',
         'ui.select',
-        'com.laplacian.luxuryakka.services',
-        'com.laplacian.luxuryakka.jwt_services',
+
+        'luxuryakka.service.jwtModule',
+        'luxuryakka.service.coreModule',
+        'luxuryakka.service.orgStructureModule',
+
         'textAngular'
     ])
     .config(['$routeProvider', function ($routeProvider) {
