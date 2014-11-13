@@ -44,19 +44,19 @@ require([
             templateUrl: 'src/views/administration.html'
         })
         .when('/administration/organization-structure', {
-            templateUrl: 'src/views/organization-structure.html',
+            templateUrl: 'src/views/organizationstructure/view.html',
             controller: 'OrgStructureFirstCallCtrl'
         })
         .when('/administration/organization-structure/create', {
-            templateUrl: 'src/views/organization-structure-create.html',
+            templateUrl: 'src/views/organizationstructure/create.html',
             controller: 'OrgStructureCreateCtrl'
         })
         .when('/administration/organization-structure/:parentId', {
-            templateUrl: 'src/views/organization-structure.html',
+            templateUrl: 'src/views/organizationstructure/view.html',
             controller: 'OrgStructureCtrl'
         })
         .when('/administration/general-settings', {
-            templateUrl: 'src/views/general-settings.html'
+            templateUrl: 'src/views/generalsettings/general-settings.html'
         })
         .when('/register', {
             templateUrl: 'src/views/register.html',
