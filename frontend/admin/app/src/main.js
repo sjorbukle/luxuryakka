@@ -8,10 +8,13 @@ require([
 
     'jwtServiceModule',
     'coreServiceModule',
-    'orgStructureServiceModule',
-
     'coreControllerModule',
-    'orgStructureControllerModule',
+
+    'administration',
+    'organizationStructure',
+    'organizationStructureFactory',
+    'organizationStructureController',
+    'generalSettings',
 
     'bootstrap-sass',
     'underscore',
@@ -30,51 +33,51 @@ require([
         'ngResource',
         'ngSanitize',
 
+        'luxuryakka.service.coreModule',
         'luxuryakka.controller.coreModule',
-        'luxuryakka.controller.orgStructureModule',
 
         'envconfig',
         'ui.select',
 
         'luxuryakka.service.jwtModule',
-        'luxuryakka.service.coreModule',
-        'luxuryakka.service.orgStructureModule',
+
+        'luxuryakka.administration',
 
         'textAngular'
     ])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
         .when('/profile', {
-            templateUrl: 'src/views/profile.html',
+            templateUrl: 'src/ZZZZviews/profile.html',
             controller: 'ProfileCtrl'
         })
         .when('/dashboard', {
-            templateUrl: 'src/views/dashboard.html'
+            templateUrl: 'src/ZZZZviews/dashboard.html'
         })
         .when('/administration', {
-            templateUrl: 'src/views/administration.html'
+            templateUrl: 'src/ZZZZviews/administration.html'
         })
         .when('/administration/organization-structure', {
-            templateUrl: 'src/views/organizationstructure/view.html',
+            templateUrl: 'src/administration/organization-structure/views/view.html',
             controller: 'OrgStructureFirstCallCtrl'
         })
         .when('/administration/organization-structure/create', {
-            templateUrl: 'src/views/organizationstructure/create.html',
+            templateUrl: 'src/administration/organization-structure/views/create.html',
             controller: 'OrgStructureCreateCtrl'
         })
         .when('/administration/organization-structure/:parentId', {
-            templateUrl: 'src/views/organizationstructure/view.html',
+            templateUrl: 'src/administration/organization-structure/views/view.html',
             controller: 'OrgStructureCtrl'
         })
         .when('/administration/general-settings', {
-            templateUrl: 'src/views/generalsettings/view.html'
+            templateUrl: 'src/administration/general-settings/views/view.html'
         })
         .when('/register', {
-            templateUrl: 'src/views/register.html',
+            templateUrl: 'src/ZZZZviews/register.html',
             controller: 'RegisterCtrl'
         })
         .when('/login', {
-            templateUrl: 'src/views/login.html',
+            templateUrl: 'src/ZZZZviews/login.html',
             controller: 'LoginCtrl'
         })
         .when('/logout', {
@@ -88,7 +91,7 @@ require([
     .run(['$rootScope', '$location', 'TOKEN', '$timeout', '$templateCache', function ($rootScope, $location, TOKEN, $timeout, $templateCache) {
             $rootScope.$on('$routeChangeStart', function (event, next) {
                 var token = localStorage.getItem(TOKEN);
-                if (!token && !(next.templateUrl == 'src/views/register.html' || next.templateUrl == 'src/views/login.html')) {
+                if (!token && !(next.originalPath == '/register' || next.originalPath == '/login')) {
                     event.preventDefault();
                     $timeout(function () {
                         $location.path('/login').replace();

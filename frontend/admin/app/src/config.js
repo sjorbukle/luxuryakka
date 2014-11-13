@@ -9,12 +9,18 @@ requirejs.config({
             '//ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular-sanitize'
         ],
         jquery: '../bower_components/jquery/dist/jquery',
-        envconfig: 'services/env-config',
-        jwtServiceModule: 'services/jwt-module',
-        coreServiceModule: 'services/core-module',
-        orgStructureServiceModule: 'services/organizationstructure/org-structure-module',
-        coreControllerModule: 'controllers/core-module',
-        orgStructureControllerModule: 'controllers/organizationstructure/org-structure-module',
+        envconfig: 'ZZZZservices/env-config',
+        jwtServiceModule: 'ZZZZservices/jwt-module',
+        coreServiceModule: 'ZZZZservices/core-module',
+
+        administration: 'administration/module',
+        organizationStructure: 'administration/organization-structure/module',
+        organizationStructureFactory: 'administration/organization-structure/factory',
+        organizationStructureController: 'administration/organization-structure/controller',
+        generalSettings: 'administration/general-settings/module',
+
+        coreControllerModule: 'ZZZZcontrollers/core-module',
+
         requirejs: '../bower_components/requirejs/require',
         textAngular: [
             '//cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular.min'

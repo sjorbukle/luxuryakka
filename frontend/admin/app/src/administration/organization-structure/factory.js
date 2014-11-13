@@ -1,5 +1,5 @@
 define(['angular'], function(angular) {
-    angular.module('luxuryakka.service.orgStructureModule', [ 'luxuryakka.service.jwtModule', 'envconfig' ])
+    angular.module('luxuryakka.organizationStructureBackend')
         .factory('orgStructureService', ['$q', '$http', 'TokenInspector', 'ENV',
             function ($q, $http, TokenInspector, ENV) {
                 var baseBackendUrl = ENV.apiEndpoint;
