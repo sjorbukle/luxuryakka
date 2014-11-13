@@ -6,9 +6,12 @@ require([
     'angular-route',
     'envconfig',
 
-    'jwtServiceModule',
-    'coreServiceModule',
-    'coreControllerModule',
+    'authentication',
+    'authenticationFactory',
+
+    'user',
+    'userFactory',
+    'userController',
 
     'administration',
     'organizationStructure',
@@ -28,34 +31,58 @@ require([
         /*smart works go here*/
         var $html = angular.element('html');
 
-    angular.module('webApp', [
+//  Main appModule instance
+    var appModule = angular.module('webApp', [
         'ngRoute',
         'ngResource',
         'ngSanitize',
 
-        'luxuryakka.service.coreModule',
-        'luxuryakka.controller.coreModule',
-
         'envconfig',
         'ui.select',
 
-        'luxuryakka.service.jwtModule',
-
+        'luxuryakka.authenticationBackend',
+        'luxuryakka.user',
         'luxuryakka.administration',
 
         'textAngular'
-    ])
-    .config(['$routeProvider', function ($routeProvider) {
+    ]);
+
+//  MainCtrl definition
+    appModule.controller('MainCtrl', ['$scope', 'Helper', '$location', 'userService','TOKEN','$rootScope',
+        function($scope, Helper, $location, userService, TOKEN, $rootScope) {
+            $scope.pageTitleValue = 'Luxury Akka';
+
+            $scope.isActive = function(route) {
+                var location = $location.path();
+                return location.substring(0, route.length) === route;
+            };
+
+            $scope.isLoggedIn = false;
+
+            $rootScope.$watch('userSet', function( token ){
+                if(token){
+                    var userID = Helper.deserializeJWT(token).userId;
+                    userService.getUserById(parseInt(userID))
+                        .then(function (userData) {
+                            $scope.isLoggedIn = true;
+                            $scope.userFullName = userData.data.firstName + ' ' + userData.data.lastName;
+                        });
+                }
+            });
+        }]);
+
+//  App routes configuration
+    appModule.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
         .when('/profile', {
-            templateUrl: 'src/ZZZZviews/profile.html',
+            templateUrl: 'src/user/views/profile.html',
             controller: 'ProfileCtrl'
         })
         .when('/dashboard', {
-            templateUrl: 'src/ZZZZviews/dashboard.html'
+            templateUrl: 'src/dashboard.html'
         })
         .when('/administration', {
-            templateUrl: 'src/ZZZZviews/administration.html'
+            templateUrl: 'src/administration/views/administration.html'
         })
         .when('/administration/organization-structure', {
             templateUrl: 'src/administration/organization-structure/views/view.html',
@@ -73,11 +100,11 @@ require([
             templateUrl: 'src/administration/general-settings/views/view.html'
         })
         .when('/register', {
-            templateUrl: 'src/ZZZZviews/register.html',
+            templateUrl: 'src/user/views/register.html',
             controller: 'RegisterCtrl'
         })
         .when('/login', {
-            templateUrl: 'src/ZZZZviews/login.html',
+            templateUrl: 'src/user/views/login.html',
             controller: 'LoginCtrl'
         })
         .when('/logout', {

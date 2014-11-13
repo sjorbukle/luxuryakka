@@ -1,7 +1,7 @@
 define(['angular'], function(angular) {
     angular.module(
         'luxuryakka.administration', [
-            'luxuryakka.module.generalSettingsBackend',
+            'luxuryakka.generalSettings',
             'luxuryakka.organizationStructure',
             'luxuryakka.generalSettings'
         ]

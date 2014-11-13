@@ -9,17 +9,20 @@ requirejs.config({
             '//ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular-sanitize'
         ],
         jquery: '../bower_components/jquery/dist/jquery',
-        envconfig: 'ZZZZservices/env-config',
-        jwtServiceModule: 'ZZZZservices/jwt-module',
-        coreServiceModule: 'ZZZZservices/core-module',
+        envconfig: 'env-config',
+
+        user: 'user/module',
+        userFactory: 'user/factory',
+        userController: 'user/controller',
+
+        authentication: 'authentication/module',
+        authenticationFactory: 'authentication/factory',
 
         administration: 'administration/module',
         organizationStructure: 'administration/organization-structure/module',
         organizationStructureFactory: 'administration/organization-structure/factory',
         organizationStructureController: 'administration/organization-structure/controller',
         generalSettings: 'administration/general-settings/module',
-
-        coreControllerModule: 'ZZZZcontrollers/core-module',
 
         requirejs: '../bower_components/requirejs/require',
         textAngular: [
