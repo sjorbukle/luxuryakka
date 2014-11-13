@@ -6,7 +6,7 @@ require([
     'angular-route',
     'envconfig',
 
-    'jwtModule',
+    'jwtServiceModule',
     'coreServiceModule',
     'orgStructureServiceModule',
 
@@ -67,7 +67,7 @@ require([
             controller: 'OrgStructureCtrl'
         })
         .when('/administration/general-settings', {
-            templateUrl: 'src/views/generalsettings/general-settings.html'
+            templateUrl: 'src/views/generalsettings/view.html'
         })
         .when('/register', {
             templateUrl: 'src/views/register.html',

@@ -10,7 +10,7 @@ requirejs.config({
         ],
         jquery: '../bower_components/jquery/dist/jquery',
         envconfig: 'services/env-config',
-        jwtModule: 'services/jwt-module',
+        jwtServiceModule: 'services/jwt-module',
         coreServiceModule: 'services/core-module',
         orgStructureServiceModule: 'services/organizationstructure/org-structure-module',
         coreControllerModule: 'controllers/core-module',
