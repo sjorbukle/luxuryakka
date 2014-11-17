@@ -19,6 +19,7 @@ requirejs.config({
         organizationStructure: 'administration/organization-structure/module',
         organizationStructureFactory: 'administration/organization-structure/factory',
         organizationStructureController: 'administration/organization-structure/controller',
+        organizationStructureDirectives: 'administration/organization-structure/directives',
         generalSettings: 'administration/general-settings/module',
         requirejs: '../bower_components/requirejs/require',
         textAngular: [

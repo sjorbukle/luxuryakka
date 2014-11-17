@@ -17,6 +17,7 @@ require([
     'organizationStructure',
     'organizationStructureFactory',
     'organizationStructureController',
+    'organizationStructureDirectives',
     'generalSettings',
 
     'bootstrap-sass',

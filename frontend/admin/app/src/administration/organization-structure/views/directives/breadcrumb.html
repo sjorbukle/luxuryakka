@@ -1,0 +1,20 @@
+<div class="container padded">
+    <div class="row">
+        <div id="breadcrumbs">
+            <div class="breadcrumb-button blue">
+                <span class="breadcrumb-label">
+                    <a href="#/administration/organization-structure">Structure</a>
+                </span>
+                <span class="breadcrumb-arrow"><span></span></span>
+            </div>
+
+            <div class="breadcrumb-button" ng-repeat="bcItem in bcItems" ng-cloak>
+                <span class="breadcrumb-label">
+                    <a href="#/administration/organization-structure/{{ bcItem.id }}">{{ bcItem.name }}</a>
+                </span>
+                <span class="breadcrumb-arrow">
+                <span></span></span>
+            </div>
+        </div>
+    </div>
+</div>
