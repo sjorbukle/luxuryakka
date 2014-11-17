@@ -10,20 +10,16 @@ requirejs.config({
         ],
         jquery: '../bower_components/jquery/dist/jquery',
         envconfig: 'env-config',
-
         user: 'user/module',
         userFactory: 'user/factory',
         userController: 'user/controller',
-
         authentication: 'authentication/module',
         authenticationFactory: 'authentication/factory',
-
         administration: 'administration/module',
         organizationStructure: 'administration/organization-structure/module',
         organizationStructureFactory: 'administration/organization-structure/factory',
         organizationStructureController: 'administration/organization-structure/controller',
         generalSettings: 'administration/general-settings/module',
-
         requirejs: '../bower_components/requirejs/require',
         textAngular: [
             '//cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular.min'

@@ -14,12 +14,19 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="box">
+            <a href="#/administration/organization-structure/create" class="btn btn-sm btn-green" >
+                Create <i class="icon-plus-sign"></i>
+            </a>
+            <div class="box" ng-show="entity.showDetails">
                 <div class="box-content">
-                    <a href="#/administration/organization-structure/create" class="btn btn-sm btn-green" >
-                        Create <i class="icon-plus-sign"></i>
-                    </a>
-                    <table class="table table-striped" ng-show="items.length > 0">
+                    <p>Name: {{ entity.item.name }}</p>
+                </div>
+            </div>
+            <div class="box">
+                <p>Children:</p>
+                <div class="box-content">
+
+                    <table class="table table-striped" ng-show="entity.children.length > 0">
                         <thead>
                             <tr>
                                 <td class="col-md-1">#</td>
@@ -28,17 +35,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <tr class="status-pending" ng-repeat="item in items" ng-cloak>
+                        <tr class="status-pending" ng-repeat="child in entity.children" ng-cloak>
                             <td>{{ $index + 1 }}</td>
 
-                            <td ng-if="doesItemHaveChild(item.entityType)"><a href="#/administration/organization-structure/{{ item.id }}">{{ item.name }}</a></td>
+                            <td ><a href="#/administration/organization-structure/{{ child.id }}">{{ child.name }}</a></td>
 
-                            <td ng-if="!doesItemHaveChild(item.entityType)"><a href="">{{ item.name }}</a></td>
+                            <td ><a href="">{{ child.name }}</a></td>
 
-                            <td><p>{{ item.entityType }}</p></td>
+                            <td><p>{{ child.entityType }}</p></td>
                         </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="box" ng-show="entity.showDetails">
+                <div class="box-content">
+                    <p>Short Description: {{ entity.item.shortDescription }}</p>
+                </div>
+                <div class="box-content">
+                    Description: <span ng-bind-html="entity.item.description"></span>
                 </div>
             </div>
         </div>
