@@ -54,8 +54,10 @@ define(['angular'], function(angular) {
                     console.log(JSON.stringify(current));
                     if(current.hasOwnProperty('parent')) {
                         if(current.name == 'COUNTRY') {
+                            $scope.entity.parentSearchTextDescription = "Disabled. Parent is not allowed for COUNTRY type.";
                             $scope.entity.parentsDisabled = true;
                         } else {
+                            $scope.entity.parentSearchTextDescription = "Please select a parent";
                             $scope.entity.parentsDisabled = false;
                             orgStructureService.getAllOrganizationStructureByType(current.parent)
                                 .then(function (result) {

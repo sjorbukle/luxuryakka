@@ -37,7 +37,7 @@
                                 <div class="col-lg-10">
 
                                     <div ui-select ng-model="entity.parent" theme="select2" ng-disabled="entity.parentsDisabled">
-                                        <div ui-select-match placeholder="Select a parent in the list or search his name/age...">
+                                        <div ui-select-match placeholder="{{ entity.parentSearchTextDescription }}">
                                             {{$select.selected.name}}
                                         </div>
                                         <div ui-select-choices repeat="parent as parent in entity.parents | filter: $select.search">
