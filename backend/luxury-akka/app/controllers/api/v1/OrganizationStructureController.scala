@@ -14,6 +14,7 @@ import com.laplacian.luxuryakka.module.organizationstructure.validation.Organiza
 import controllers.core.SecuredController
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype
+import play.api.libs.json.{JsObject, JsString}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -113,5 +114,19 @@ class OrganizationStructureController @Autowired
       else {
         Future(BadRequest(ResponseTools.errorToRestResponse("Invalid parentId value. There is not parent with received id").json))
       }
+  }
+
+  def allTypes = AuthenticatedAction {
+    request =>
+      val result = OrganizationStructureType.values.map(
+        v => JsObject(
+          Seq(
+            "name"    -> JsString(v.name),
+            "parent"  -> JsString(v.parentType().map(_.name).getOrElse(StringUtils.EMPTY_STRING))
+          )
+        )
+      )
+
+      Future(Ok(ResponseTools.data(result).json))
   }
 }
