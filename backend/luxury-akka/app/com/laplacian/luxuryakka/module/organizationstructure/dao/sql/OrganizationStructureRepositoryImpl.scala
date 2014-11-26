@@ -3,7 +3,7 @@ package com.laplacian.luxuryakka.module.organizationstructure.dao.sql
 import com.laplacian.luxuryakka.core.{Asserts, GeneratedId}
 import com.laplacian.luxuryakka.module.organizationstructure.dao.OrganizationStructureRepository
 import com.laplacian.luxuryakka.module.organizationstructure.dao.sql.mapper.OrganizationStructureMapper.OrganizationStructureDetailsTableDescriptor
-import com.laplacian.luxuryakka.module.organizationstructure.domain.{OrganizationStructureLookupEntity, OrganizationStructureType, OrganizationStructureDetailsEntity, OrganizationStructureCreateEntity}
+import com.laplacian.luxuryakka.module.organizationstructure.domain._
 import org.springframework.stereotype.Repository
 import play.api.db.DB
 import scala.slick.driver.PostgresDriver.simple._
@@ -26,6 +26,16 @@ class OrganizationStructureRepositoryImpl extends OrganizationStructureRepositor
         Asserts.argumentIsTrue(generatedIdCandidateValue.isDefined)
 
         GeneratedId(generatedIdCandidateValue.get)
+    }
+  }
+
+  override def update(item: OrganizationStructureUpdateEntity)
+  {
+    Asserts.argumentIsNotNull(item)
+
+    db.withTransaction {
+      implicit session =>
+        OrganizationStructureRepositoryQuery.UPDATE_QUERY(item).asUpdate.execute
     }
   }
 
@@ -97,6 +107,16 @@ private object OrganizationStructureRepositoryQuery
         INSERT INTO organization_structure(name, parent_id, entity_type_id, description, short_description)
         VALUES (${item.name}, ${item.parentId}, ${Long.unbox(item.entityType.id)}, ${item.description}, ${item.shortDescription})
         RETURNING id
+    """
+  }
+
+  def UPDATE_QUERY(item: OrganizationStructureUpdateEntity) = {
+    sql"""
+        UPDATE organization_structure SET
+        name = ${item.name},
+        description = ${item.description},
+        short_description = ${item.shortDescription}
+        WHERE id = ${item.id}
     """
   }
 }

@@ -5,6 +5,7 @@ POST        /users                                                              
 
 # OrganizationStructure routes
 POST        /organization-structure                                                   @controllers.api.v1.OrganizationStructureController.create
+PUT         /organization-structure                                                   @controllers.api.v1.OrganizationStructureController.update
 GET         /organization-structure/single/:id                                        @controllers.api.v1.OrganizationStructureController.read(id: Long)
 GET         /organization-structure/all                                               @controllers.api.v1.OrganizationStructureController.all
 GET         /organization-structure/all/type/:organizationStructureType               @controllers.api.v1.OrganizationStructureController.allByType(organizationStructureType: String)

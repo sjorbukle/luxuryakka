@@ -2,7 +2,8 @@ package com.laplacian.luxuryakka.module.log.action.domain;
 
 public enum ActionType
 {
-    CREATED("CREATED");
+    CREATED("CREATED"),
+    UPDATED("UPDATED");
 
     private ActionType(String displayName)
     {

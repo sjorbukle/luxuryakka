@@ -2,7 +2,7 @@ package com.laplacian.luxuryakka.module.organizationstructure.service.domain
 
 import com.laplacian.luxuryakka.core.{GeneratedId, Asserts}
 import com.laplacian.luxuryakka.module.organizationstructure.dao.OrganizationStructureRepository
-import com.laplacian.luxuryakka.module.organizationstructure.domain.{OrganizationStructureLookupEntity, OrganizationStructureType, OrganizationStructureDetailsEntity, OrganizationStructureCreateEntity}
+import com.laplacian.luxuryakka.module.organizationstructure.domain._
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -19,6 +19,14 @@ class OrganizationStructureDomainServiceImpl @Autowired
     Asserts.argumentIsNotNull(item)
 
     this.entityRepository.insert(item)
+  }
+
+  override def update(item: OrganizationStructureUpdateEntity): OrganizationStructureDetailsEntity =
+  {
+    Asserts.argumentIsNotNull(item)
+
+    this.entityRepository.update(item)
+    this.getById(item.id)
   }
 
   override def tryGetById(id: Long): Option[OrganizationStructureDetailsEntity] =

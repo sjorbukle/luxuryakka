@@ -1,11 +1,13 @@
 package com.laplacian.luxuryakka.module.organizationstructure.dao
 
 import com.laplacian.luxuryakka.core.GeneratedId
-import com.laplacian.luxuryakka.module.organizationstructure.domain.{OrganizationStructureLookupEntity, OrganizationStructureType, OrganizationStructureDetailsEntity, OrganizationStructureCreateEntity}
+import com.laplacian.luxuryakka.module.organizationstructure.domain._
 
 trait OrganizationStructureRepository
 {
   def insert(item: OrganizationStructureCreateEntity): GeneratedId
+
+  def update(item: OrganizationStructureUpdateEntity)
 
   def findById(id: Long): Option[OrganizationStructureDetailsEntity]
   def findByName(name: String): Option[OrganizationStructureDetailsEntity]
