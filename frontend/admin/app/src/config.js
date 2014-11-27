@@ -21,6 +21,8 @@ requirejs.config({
         organizationStructureController: 'administration/organization-structure/controller',
         organizationStructureDirectives: 'administration/organization-structure/directives',
         generalSettings: 'administration/general-settings/module',
+        generalSettingsFactory: 'administration/general-settings/factory',
+        generalSettingsController: 'administration/general-settings/controller',
         requirejs: '../bower_components/requirejs/require',
         textAngular: [
             '//cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular.min'
