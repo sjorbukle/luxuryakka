@@ -12,5 +12,59 @@
 </div>
 
 <div class="container">
-
+  <div class="row">
+    <div class="col-md-6" ng-show="settings.general">
+      <div class="box">
+        <div class="box-header">
+          <span class="title">Company Data</span>
+        </div>
+        <div class="box-content">
+          <div class="settings-section box-section">
+            <span class="label label-black">Country :</span>
+            <span class="setting-content">{{ settings.general.companyData.country }}</span>
+          </div>
+          <div class="settings-section box-section">
+            <span class="label label-black">Street :</span>
+            <span class="setting-content">{{ settings.general.companyData.street }}</span>
+          </div>
+          <div class="settings-section box-section">
+            <span class="label label-black">City :</span>
+            <span class="setting-content">{{ settings.general.companyData.city }}</span>
+          </div>
+          <div class="settings-section box-section">
+            <span class="label label-black">Zip :</span>
+            <span class="setting-content">{{ settings.general.companyData.zip }}</span>
+          </div>
+          <div class="settings-section box-section">
+            <span class="label label-black">Phone :</span>
+            <span class="setting-content">{{ settings.general.companyData.phone }}</span>
+          </div>
+          <div class="settings-section box-section">
+            <span class="label label-black">Mobile :</span>
+            <span class="setting-content">{{ settings.general.companyData.mobile }}</span>
+          </div>
+          <div class="settings-section box-section">
+            <span class="label label-black">Oib :</span>
+            <span class="setting-content">{{ settings.general.companyData.oib }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="box-header">
+          <span class="title">Business Data</span>
+        </div>
+        <div class="box-content">
+          <div class="settings-section box-section">
+            <span class="label label-black">Profit percentage :</span>
+            <span>{{ settings.general.businessData.profitPercentage }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <a href="#" class="gen-settings-edit btn btn-sm btn-green" >
+        Edit <i class="icon-minus-sign"></i>
+      </a>
+    </div>
+  </div>
 </div>
