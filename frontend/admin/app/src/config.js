@@ -21,13 +21,11 @@ requirejs.config({
         generalSettingsFactory: 'administration/general-settings/factory',
         generalSettingsController: 'administration/general-settings/controller',
         requirejs: '../bower_components/requirejs/require',
-        textAngular: [
-            '//cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular.min'
-        ],
         'bootstrap-sass': '../bower_components/bootstrap-sass/dist/js/bootstrap',
         underscore: '../bower_components/underscore/underscore',
         'angular-ui-select': '../bower_components/angular-ui-select/dist/select',
-        'angular-sanitize': '../bower_components/angular-sanitize/angular-sanitize'
+        'angular-sanitize': '../bower_components/angular-sanitize/angular-sanitize',
+        textAngular: '../bower_components/textAngular/dist/textAngular.min'
     },
     shim: {
         angular: {
