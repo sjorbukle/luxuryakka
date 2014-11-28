@@ -19,7 +19,8 @@ require([
     'organizationStructureController',
     'organizationStructureDirectives',
     'generalSettings',
-
+    'generalSettingsController',
+    'generalSettingsFactory',
     'bootstrap-sass',
     'underscore',
     'angular-ui-select',
@@ -98,7 +99,8 @@ require([
             controller: 'OrgStructureCtrl'
         })
         .when('/administration/general-settings', {
-            templateUrl: 'src/administration/general-settings/views/view.html'
+            templateUrl: 'src/administration/general-settings/views/view.html',
+            controller: 'GeneralSettingsCtrl'
         })
         .when('/register', {
             templateUrl: 'src/user/views/register.html',

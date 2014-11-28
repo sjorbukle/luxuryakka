@@ -8,9 +8,9 @@ import com.laplacian.luxuryakka.core.utils.StringUtils
 import com.laplacian.luxuryakka.module.authentication.service.AuthenticationService
 import com.laplacian.luxuryakka.module.log.action.actor.ActionLogCreateMsg
 import com.laplacian.luxuryakka.module.log.action.domain.{ActionType, ActionDomainType, ActionLogEntity}
-import com.laplacian.luxuryakka.module.organizationstructure.domain.{OrganizationStructureType, OrganizationStructureDetailsEntity, OrganizationStructureCreateEntity}
+import com.laplacian.luxuryakka.module.organizationstructure.domain.{OrganizationStructureUpdateEntity, OrganizationStructureType, OrganizationStructureDetailsEntity, OrganizationStructureCreateEntity}
 import com.laplacian.luxuryakka.module.organizationstructure.service.domain.OrganizationStructureDomainService
-import com.laplacian.luxuryakka.module.organizationstructure.validation.OrganizationStructureCreateValidator
+import com.laplacian.luxuryakka.module.organizationstructure.validation.{OrganizationStructureUpdateValidator, OrganizationStructureCreateValidator}
 import controllers.core.SecuredController
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype
@@ -22,7 +22,8 @@ import scala.concurrent.Future
 class OrganizationStructureController @Autowired
 (
   private val organizationStructureDomainService  : OrganizationStructureDomainService,
-  private val organizationStructureCreateValidator: OrganizationStructureCreateValidator
+  private val organizationStructureCreateValidator: OrganizationStructureCreateValidator,
+  private val organizationStructureUpdateValidator: OrganizationStructureUpdateValidator
 )
 (
   implicit private val authenticationService: AuthenticationService
@@ -30,6 +31,7 @@ class OrganizationStructureController @Autowired
 {
   Asserts.argumentIsNotNull(organizationStructureDomainService)
   Asserts.argumentIsNotNull(organizationStructureCreateValidator)
+  Asserts.argumentIsNotNull(organizationStructureUpdateValidator)
   Asserts.argumentIsNotNull(authenticationService)
 
   def read(id: Long) = AuthenticatedAction {
@@ -59,6 +61,25 @@ class OrganizationStructureController @Autowired
       ActorFactory.actionLogActorRouter.tell(ActionLogCreateMsg(itemCreatedAction), ActorRef.noSender)
 
       Future.successful(Ok(ResponseTools.of(createdItem, Some(validationResult.messages)).json))
+  }
+
+  def update = MutateJsonAuthenticatedAction[OrganizationStructureUpdateEntity](organizationStructureUpdateValidator) {
+    (request, validationResult, requestUser) =>
+
+      val itemBeforeUpdate = this.organizationStructureDomainService.getById(validationResult.validatedItem.id)
+      val itemAfterUpdate = this.organizationStructureDomainService.update(validationResult.validatedItem)
+
+      val itemUpdatedAction = ActionLogEntity.of[OrganizationStructureDetailsEntity, OrganizationStructureDetailsEntity](
+        userId      = requestUser.id,
+        domainType  = ActionDomainType.ORGANIZATION_STRUCTURE,
+        domainId    = itemAfterUpdate.id,
+        actionType  = ActionType.UPDATED,
+        before      = Some(itemBeforeUpdate),
+        after       = Some(itemAfterUpdate)
+      )
+      ActorFactory.actionLogActorRouter.tell(ActionLogCreateMsg(itemUpdatedAction), ActorRef.noSender)
+
+      Future.successful(Redirect(routes.OrganizationStructureController.read(itemAfterUpdate.id)))
   }
 
   def all = AuthenticatedAction {

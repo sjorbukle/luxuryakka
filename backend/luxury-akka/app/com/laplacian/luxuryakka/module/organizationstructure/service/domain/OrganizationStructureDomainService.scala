@@ -1,11 +1,13 @@
 package com.laplacian.luxuryakka.module.organizationstructure.service.domain
 
 import com.laplacian.luxuryakka.core.{Asserts, GeneratedId}
-import com.laplacian.luxuryakka.module.organizationstructure.domain.{OrganizationStructureType, OrganizationStructureLookupEntity, OrganizationStructureDetailsEntity, OrganizationStructureCreateEntity}
+import com.laplacian.luxuryakka.module.organizationstructure.domain._
 
 trait OrganizationStructureDomainService
 {
   def create(item: OrganizationStructureCreateEntity): GeneratedId
+
+  def update(item: OrganizationStructureUpdateEntity): OrganizationStructureDetailsEntity
 
   def tryGetById(id: Long): Option[OrganizationStructureDetailsEntity]
   def tryGetByName(name: String): Option[OrganizationStructureDetailsEntity]
