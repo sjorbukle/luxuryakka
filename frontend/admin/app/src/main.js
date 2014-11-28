@@ -83,6 +83,7 @@ require([
         .when('/dashboard', {
             templateUrl: 'src/dashboard.html'
         })
+
         .when('/administration', {
             templateUrl: 'src/administration/views/administration.html'
         })
@@ -98,10 +99,16 @@ require([
             templateUrl: 'src/administration/organization-structure/views/view.html',
             controller: 'OrgStructureCtrl'
         })
+        .when('/administration/organization-structure/edit/:id', {
+            templateUrl: 'src/administration/organization-structure/views/edit.html',
+            controller: 'OrgStructureEditCtrl'
+        })
+
         .when('/administration/general-settings', {
             templateUrl: 'src/administration/general-settings/views/view.html',
             controller: 'GeneralSettingsCtrl'
         })
+
         .when('/register', {
             templateUrl: 'src/user/views/register.html',
             controller: 'RegisterCtrl'
