@@ -90,4 +90,38 @@ define(['angular'], function(angular) {
                     });
                 };
             }])
+        .controller('OrgStructureEditCtrl', ['$scope', '$routeParams', '$location', 'orgStructureService',
+            function($scope, $routeParams, $location, orgStructureService) {
+                var idParam = $routeParams.id;
+                orgStructureService.getOrganizationStructureById(idParam)
+                    .then(function (result) {
+                        $scope.entity = angular.copy(result.data);
+                        $scope.entity.oldName = angular.copy($scope.entity.name);
+                        if($scope.entity.hasOwnProperty('parentId')) {
+                            orgStructureService.getOrganizationStructureById($scope.entity.parentId)
+                                .then(function (result) {
+                                    $scope.entity.parent = angular.copy(result.data);
+                                });
+                        } else {
+                            $scope.entity.parent = {name : '-'};
+                        }
+                    });
+
+                $scope.submitForm = function() {
+                    var formJson = {
+                        id               : $scope.entity.id,
+                        name             : $scope.entity.name,
+                        description      : $scope.entity.description,
+                        shortDescription : $scope.entity.shortDescription
+                    };
+
+                    orgStructureService.editOrganizationStructure(formJson)
+                        .then(function (response) {
+                            $location.path('/administration/organization-structure/' + response.data.id);
+                        },
+                        function (err) {
+                            console.log(JSON.stringify(err));
+                        });
+                };
+            }])
 });

@@ -14,7 +14,25 @@ define(['angular'], function(angular) {
                                     data: angular.toJson(formJson)
                                 })
                                     .error(function (reason, code) {
-                                        console.log('Error: getOrganizationStructureByParent' + JSON.stringify(reason) + ' Code:' + code);
+                                        console.log('Error: createOrganizationStructure' + JSON.stringify(reason) + ' Code:' + code);
+                                        return reason;
+                                    })
+                                    .then(function (res) {
+                                        return res.data;
+                                    });
+                            });
+                    },
+                    editOrganizationStructure: function (formJson) {
+                        return TokenInspector.getOrRefreshToken()
+                            .then(function (token) {
+                                return $http({
+                                    url: baseBackendUrl + '/api/v1/organization-structure',
+                                    method: 'PUT',
+                                    headers: { Authorization: token },
+                                    data: angular.toJson(formJson)
+                                })
+                                    .error(function (reason, code) {
+                                        console.log('Error: editOrganizationStructure' + JSON.stringify(reason) + ' Code:' + code);
                                         return reason;
                                     })
                                     .then(function (res) {
