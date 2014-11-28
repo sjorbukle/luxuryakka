@@ -79,7 +79,7 @@ class OrganizationStructureController @Autowired
       )
       ActorFactory.actionLogActorRouter.tell(ActionLogCreateMsg(itemUpdatedAction), ActorRef.noSender)
 
-      Future.successful(Redirect(routes.OrganizationStructureController.read(itemAfterUpdate.id)))
+      Future.successful(Ok(ResponseTools.of(itemAfterUpdate, Some(validationResult.messages)).json))
   }
 
   def all = AuthenticatedAction {
