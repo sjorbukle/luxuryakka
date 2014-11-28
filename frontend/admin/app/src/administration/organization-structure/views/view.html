@@ -28,8 +28,10 @@
                 <a href="#/administration/organization-structure/create" class="org-struct-btn-create btn btn-sm btn-green" >
                   Create <i class="icon-plus-sign"></i>
                 </a>
+                <a href="#/administration/organization-structure/edit/{{ entity.item.id }}" ng-show="entity.showDetails" class="org-struct-btn-create btn btn-sm btn-blue" >
+                    Edit <i class="icon-edit"></i>
+                </a>
             </div>
-
 
           <div class="col-md-12">
             <div class="box">
@@ -44,6 +46,7 @@
                                 <td class="col-md-1">#</td>
                                 <td class="col-md-3">Name</td>
                                 <td class="col-md-3">Type</td>
+                                <td class="col-md-3"></td>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,6 +54,11 @@
                             <td>{{ $index + 1 }}</td>
                             <td ><a href="#/administration/organization-structure/{{ child.id }}">{{ child.name }}</a></td>
                             <td><p>{{ child.entityType }}</p></td>
+                            <td>
+                                <a href="#/administration/organization-structure/edit/{{ child.id }}" class="btn btn-sm btn-blue" >
+                                    Edit <i class="icon-edit"></i>
+                                </a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
