@@ -5,9 +5,6 @@ requirejs.config({
         'angular-mocks': '../bower_components/angular-mocks/angular-mocks',
         'angular-resource': '../bower_components/angular-resource/angular-resource',
         'angular-route': '../bower_components/angular-route/angular-route',
-        'angular-sanitize': [
-            '//ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular-sanitize'
-        ],
         jquery: '../bower_components/jquery/dist/jquery',
         envconfig: 'env-config',
         user: 'user/module',
@@ -29,7 +26,8 @@ requirejs.config({
         ],
         'bootstrap-sass': '../bower_components/bootstrap-sass/dist/js/bootstrap',
         underscore: '../bower_components/underscore/underscore',
-        'angular-ui-select': '../bower_components/angular-ui-select/dist/select'
+        'angular-ui-select': '../bower_components/angular-ui-select/dist/select',
+        'angular-sanitize': '../bower_components/angular-sanitize/angular-sanitize'
     },
     shim: {
         angular: {
@@ -44,10 +42,10 @@ requirejs.config({
         'angular-resource': [
             'angular'
         ],
-        'angular-route': [
+        'angular-sanitize': [
             'angular'
         ],
-        'angular-sanitize': [
+        'angular-route': [
             'angular'
         ],
         'angular-ui-select': {
