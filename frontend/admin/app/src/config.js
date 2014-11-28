@@ -6,7 +6,7 @@ requirejs.config({
         'angular-resource': '../bower_components/angular-resource/angular-resource',
         'angular-route': '../bower_components/angular-route/angular-route',
         jquery: '../bower_components/jquery/dist/jquery',
-        envconfig: 'env-config',
+        envconfig: 'services/env-config',
         user: 'user/module',
         userFactory: 'user/factory',
         userController: 'user/controller',
