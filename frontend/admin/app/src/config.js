@@ -27,7 +27,7 @@ requirejs.config({
         textAngular: [
             '//cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular.min'
         ],
-        'bootstrap-sass': '../bower_components/bootstrap-sass/dist/js/bootstrap',
+        'bootstrap-sass': '../bower_components/bootstrap-sass/assets/javascripts/bootstrap',
         underscore: '../bower_components/underscore/underscore',
         'angular-ui-select': '../bower_components/angular-ui-select/dist/select'
     },

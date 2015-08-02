@@ -1,4 +1,4 @@
-@import "../bower_components/bootstrap-sass/lib/mixins";
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
 
 .pagination > ul {
   @include box-shadow(none);
@@ -41,6 +41,6 @@
 
 // extra small
 .pagination-xs {
-  @include pagination-size(4px, 6px, 10px, 3px);
+  @include pagination-size(4px, 6px, 10px, 3px,0);
 }
 
