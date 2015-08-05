@@ -175,35 +175,35 @@ module.exports = function(grunt) {
             server: '.tmp'
         },
 
-        // Make sure code styles are up to par and there are no obvious mistakes
-        jshint: {
-            options: {
-                jshintrc: '.jshintrc',
-                reporter: require('jshint-stylish')
-            },
-            all: [
-                'Gruntfile.js',
-                '<%= yeoman.app %>/src/{,*/}*.js',
-                '!<%= yeoman.app %>/src/vendor/*',
-                'test/spec/{,*/}*.js'
-            ]
-        },
+        //// Make sure code styles are up to par and there are no obvious mistakes
+        //jshint: {
+        //    options: {
+        //        jshintrc: '.jshintrc',
+        //        reporter: require('jshint-stylish')
+        //    },
+        //    all: [
+        //        'Gruntfile.js',
+        //        '<%= yeoman.app %>/src/{,*/}*.js',
+        //        '!<%= yeoman.app %>/src/vendor/*',
+        //        'test/spec/{,*/}*.js'
+        //    ]
+        //},
 
-        // requirejs task
-        requirejs: {
-            dist: {
-                options: {
-                    dir: "<%= yeoman.dist %>/src/",
-                    baseUrl: '<%= yeoman.app %>/src', // Directory to look for the require configuration file
-                    mainConfigFile: '<%= yeoman.app %>/src/config.js', // This is relative to the grunt file
-                    modules: [{ name: 'main' }], // create a global bundle
-                    preserveLicenseComments: false, // remove all comments
-                    removeCombined: true, // remove files which aren't in bundles
-                    optimize: 'none', // minify bundles with uglify 2
-                    useStrict: true
-                }
-            }
-        },
+        //// requirejs task
+        //requirejs: {
+        //    dist: {
+        //        options: {
+        //            dir: "<%= yeoman.dist %>/src/",
+        //            baseUrl: '<%= yeoman.app %>/src', // Directory to look for the require configuration file
+        //            mainConfigFile: '<%= yeoman.app %>/src/config.js', // This is relative to the grunt file
+        //            modules: [{ name: 'main' }], // create a global bundle
+        //            preserveLicenseComments: false, // remove all comments
+        //            removeCombined: true, // remove files which aren't in bundles
+        //            optimize: 'none', // minify bundles with uglify 2
+        //            useStrict: true
+        //        }
+        //    }
+        //},
 
         // karma testing
         karma: {
@@ -453,14 +453,14 @@ module.exports = function(grunt) {
         return string.substring(0, start) + what + string.substring(end);
     }
 
-    grunt.registerTask('requirejs-bundle', function() {
-        var indexHTML = grunt.file.read('dist/index.html');
-        //remove config file
-        indexHTML = replaceBetween(indexHTML,
-            indexHTML.indexOf('<!--build tag-->'),
-            indexHTML.indexOf('<!--end build tag-->') + '<!--end build tag-->'.length, '');
-        grunt.file.write('dist/index.html', indexHTML);
-    });
+    //grunt.registerTask('requirejs-bundle', function() {
+    //    var indexHTML = grunt.file.read('dist/index.html');
+    //    //remove config file
+    //    indexHTML = replaceBetween(indexHTML,
+    //        indexHTML.indexOf('<!--build tag-->'),
+    //        indexHTML.indexOf('<!--end build tag-->') + '<!--end build tag-->'.length, '');
+    //    grunt.file.write('dist/index.html', indexHTML);
+    //});
 
     grunt.registerTask('requirejs-config-copy', function() {
         var mainRequireJs = grunt.file.read('app/src/config.js');
@@ -480,12 +480,12 @@ module.exports = function(grunt) {
         'ngconstant:production',
         'useminPrepare',
         'concurrent:dist',
-        'autoprefixer',
-        'cssmin',
-        'requirejs',
+        //'autoprefixer',
+        //'cssmin',
+        //'requirejs',
         'clean:afterBuild',
         'copy:dist',
-        'requirejs-bundle',
+        //'requirejs-bundle',
         'uglify',
         // 'rev', // turns on this task if you want to use revision
         'usemin'
@@ -509,8 +509,8 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('default', [
-        'newer:jshint',
-        'test',
+        //'newer:jshint',
+        //'test',
         'build'
     ]);
 };

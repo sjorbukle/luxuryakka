@@ -29,7 +29,9 @@ requirejs.config({
         ],
         'bootstrap-sass': '../bower_components/bootstrap-sass/assets/javascripts/bootstrap',
         underscore: '../bower_components/underscore/underscore',
-        'angular-ui-select': '../bower_components/angular-ui-select/dist/select'
+        'angular-ui-select': '../bower_components/angular-ui-select/dist/select',
+        'google-maps': 'http://maps.google.com/maps/api/js',
+        ngmap: '../bower_components/ngmap/build/scripts/ng-map'
     },
     shim: {
         angular: {
@@ -62,6 +64,11 @@ requirejs.config({
         'bootstrap-sass': {
             deps: [
                 'jquery'
+            ]
+        },
+        ngmap: {
+            deps: [
+                'angular'
             ]
         }
     },

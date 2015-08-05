@@ -24,7 +24,8 @@ require([
     'bootstrap-sass',
     'underscore',
     'angular-ui-select',
-    'textAngular'
+    'textAngular',
+    'ngmap'
 ], function(angular) {
     'use strict';
 
@@ -46,7 +47,8 @@ require([
         'luxuryakka.user',
         'luxuryakka.administration',
 
-        'textAngular'
+        'textAngular',
+        'ngMap'
     ]);
 
 //  MainCtrl definition
